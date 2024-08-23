@@ -1,0 +1,14 @@
+.editor-main {
+  height: auto;
+
+  .editorjs {
+
+    .codex-editor__redactor{
+      padding-bottom: 0px !important;
+    }
+
+    .ce-toolbar__actions.ce-toolbar__actions--opened{
+      display: none;
+    }
+  }
+}

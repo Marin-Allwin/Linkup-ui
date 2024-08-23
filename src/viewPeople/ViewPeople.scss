@@ -1,0 +1,301 @@
+.ViewPeople-main {
+  display: flex;
+  justify-content: center;
+  height: auto;
+
+  .viewPeople-container {
+    width: 65%;
+    // background-color: aqua;
+
+    .viewPeople-cover-pic-container {
+      background-color: lightgray;
+      height: 45vh;
+      width: 100%;
+      border-radius: 20px;
+      position: relative;
+
+      .viewPeople-cover-pic {
+        height: inherit;
+        width: inherit;
+
+        img {
+          height: inherit;
+          width: inherit;
+          border-radius: 20px;
+          object-fit: cover;
+          object-position: center;
+        }
+
+        .p-image-preview-indicator {
+          height: inherit;
+          width: inherit;
+          border-radius: 20px;
+        }
+      }
+    }
+
+    .viewPeople-profile-pic-sec {
+      height: 15vh;
+      position: relative;
+      display: flex;
+      justify-content: right;
+
+      .viewPeople-profile-pic-container {
+        height: 200px;
+        width: 200px;
+        position: absolute;
+        bottom: 10%;
+        left: 5%;
+        border-radius: 50%;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+        background-color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .viewPeople-profile-pic {
+          height: 98%;
+          width: 98%;
+          border-radius: 50%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          img {
+            height: 100%;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            object-fit: cover;
+            object-position: center;
+          }
+
+          .p-image-preview-indicator {
+            border-radius: 50% !important;
+          }
+        }
+
+        .viewPeople-profile-pic-icon {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100%;
+          border-radius: 50%;
+          object-fit: contain;
+        }
+      }
+      .viewPeople-profile-name-container {
+        width: 27%;
+        display: flex;
+        flex-direction: column;
+        padding: 2rem 0.5rem;
+
+        .viewPeople-profile-name {
+          font-size: 30px;
+        }
+
+        .viewPeople-profile-bio {
+          font-size: 20px;
+        }
+      }
+
+      .viewPeople-profile-action-setion {
+        width: 50%;
+        height: 100%;
+        display: flex;
+        align-items: end;
+        justify-content: end;
+        padding: 1.5rem 3rem;
+        gap: 15px;
+
+        .viewPeople-send-request,
+        .viewPeople-send-message {
+          padding: 0.5rem;
+          border-radius: 10px;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          font-weight: 500;
+
+          Button {
+            box-shadow: none;
+            border: none;
+          }
+        }
+      }
+    }
+
+    .viewPeople-about-actions {
+      padding: 2rem 0.5rem;
+
+      .viewPeople-about-main {
+        display: flex;
+        padding: 2rem 0.5rem;
+
+        .viewPeople-about-sec-one {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          row-gap: 10px;
+
+          .viewPeople-about-sec-one-items {
+            padding: 1rem 0.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 10px;
+          }
+          .viewPeople-about-sec-one-items:hover {
+            background-color: #d0d3d7;
+          }
+        }
+        .viewPeople-about-sec-two {
+          flex: 2;
+          padding: 2rem 2rem;
+
+          .phone-email {
+            display: flex;
+            flex-direction: column;
+
+            span {
+              padding: 1rem 0.5rem;
+              display: flex;
+              align-items: center;
+              gap: 10px;
+              font-size: 20px;
+
+              i{
+                font-size: 20px;
+              }
+            }
+          }
+
+          .relationship-section {
+            padding: 2rem 2rem;
+
+            span {
+              display: flex;
+              align-items: center;
+              gap: 10px;
+              font-size: 24px;
+
+              i {
+                font-size: 24px;
+              }
+            }
+          }
+
+          .birthday-section {
+            padding: 2rem 2rem;
+            span {
+              display: flex;
+              align-items: center;
+              gap: 10px;
+              font-size: 24px;
+
+              i {
+                font-size: 24px;
+              }
+            }
+          }
+
+          .school-section {
+            .schooling-container {
+              display: flex;
+              flex-direction: column;
+              padding: 1rem 0.5rem;
+
+              .school-education-container {
+                padding: 0.5rem 2rem;
+                display: flex;
+                justify-content: space-between;
+
+                .school-education {
+                  font-size: 24px;
+                  display: flex;
+                  align-items: center;
+                  gap: 10px;
+                  i {
+                    font-size: 20px;
+                  }
+                }
+              }
+
+              .school-name {
+                padding: 0.5rem 4rem;
+              }
+            }
+
+            .school-none{
+                padding: 0rem 3rem;
+            }
+          }
+
+          .college-section {
+            .college-container {
+              display: flex;
+              flex-direction: column;
+              padding: 1rem 0.5rem;
+
+              .college-education-container {
+                padding: 0.5rem 2rem;
+                display: flex;
+                justify-content: space-between;
+
+                .college-education {
+                  font-size: 24px;
+                  display: flex;
+                  align-items: center;
+                  gap: 10px;
+                  i {
+                    font-size: 20px;
+                  }
+                }
+              }
+
+              .college-name {
+                padding: 0.5rem 4rem;
+              }
+            }
+            .college-none{
+                padding: 0rem 3rem;
+            }
+          }
+
+          .company-section {
+            .company-container {
+              display: flex;
+              flex-direction: column;
+              padding: 1rem 0.5rem;
+
+              .company-education-container {
+                padding: 0.5rem 2rem;
+                display: flex;
+                justify-content: space-between;
+
+                .company-education {
+                  font-size: 24px;
+                  display: flex;
+                  align-items: center;
+                  gap: 10px;
+                  i {
+                    font-size: 20px;
+                  }
+                }
+              }
+
+              .company-name {
+                padding: 0.5rem 4rem;
+              }
+            }
+            .work-none{
+                padding: 0rem 3rem;
+            }
+          }
+        }
+      }
+    }
+  }
+}

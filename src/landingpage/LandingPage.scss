@@ -1,0 +1,25 @@
+.landingpage-main {
+//   background-color: ghostwhite;
+  height: 92vh;
+  width: 100%;
+  display: flex;
+
+  .landingpage-sec-one {
+    flex: 1;
+    display: flex;
+    // background-color: aqua;
+    height: 100%;
+  }
+  .landingpage-sec-two {
+    flex: 2;
+    display: flex;
+    // background-color: aquamarine;
+    height: 100%;
+  }
+  .landingpage-sec-three {
+    flex: 1;
+    display: flex;
+    // background-color: antiquewhite;
+    height: 100%;
+  }
+}

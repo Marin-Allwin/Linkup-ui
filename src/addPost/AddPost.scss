@@ -1,0 +1,15 @@
+.add-post-main {
+  display: flex;
+  justify-content: center;
+  height: auto;
+  background-color: aqua;
+
+  .add-post-container{
+    width: 65%;
+    // background-color: aqua;
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    padding: 5rem 0rem;
+  }
+}

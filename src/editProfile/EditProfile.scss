@@ -1,0 +1,121 @@
+.edit-profile-main {
+  display: flex;
+  justify-content: center;
+  height: 92vh;
+
+  .edit-profile-container {
+    width: 65%;
+    // background-color: aqua;
+    display: flex;
+    height: 100%;
+
+    .edit-profile-sec-one {
+      // background-color: aqua;
+      flex: 1;
+      padding: 4rem 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+
+      .ep-sec-one-containers {
+        font-size: 20px;
+        font-weight: 500;
+        padding: 0.8rem 6rem;
+        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+        cursor: pointer;
+      }
+      .ep-sec-one-containers:hover {
+        background-color: lightgray;
+      }
+    }
+
+    .edit-profile-sec-two {
+      // background-color: aquamarine;
+      flex: 3;
+      height: 800px;
+      padding: 4rem 4rem;
+
+      .ep-about-sec {
+        width: 85%;
+
+        .ep-about-sec-items {
+          padding: 1rem 0rem;
+          font-weight: 500;
+
+          span {
+            cursor: pointer;
+          }
+        }
+
+        .show-section-name {
+          display: flex;
+          flex-direction: column;
+          row-gap: 20px;
+
+          .show-section-name-part-one {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            row-gap: 30px;
+
+            .bio-input {
+              width: 100%;
+              box-shadow: none;
+            }
+
+            .p-inputtext {
+              box-shadow: none;
+            }
+
+            .year-container {
+              width: 50%;
+              display: flex;
+              justify-content: end;
+              align-items: center;
+
+              span {
+                padding: 0rem 0.5rem;
+              }
+              .year {
+                width: 40%;
+              }
+            }
+            .school-description {
+              width: 100%;
+            }
+            .dob {
+              width: 100%;
+            }
+          }
+
+          .show-section-name-part-two {
+            display: flex;
+            justify-content: end;
+            gap: 20px;
+
+            .name-cancel {
+              box-shadow: none;
+              background-color: transparent;
+              color: #007ad9;
+              border: none;
+              box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .loading-animation {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .loading-animation{
+      height: 100px;
+      width: 100px;
+    }
+  }
+}

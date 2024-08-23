@@ -1,0 +1,412 @@
+.profile-main {
+  display: flex;
+  justify-content: center;
+  height: auto;
+
+  .profile-container {
+    width: 65%;
+    // background-color: aqua;
+
+    .cover-pic-container {
+      background-color: lightgray;
+      height: 45vh;
+      width: 100%;
+      border-radius: 20px;
+      position: relative;
+
+      .cover-pic {
+        height: inherit;
+        width: inherit;
+
+        img {
+          height: inherit;
+          width: inherit;
+          border-radius: 20px;
+          object-fit: cover;
+          object-position: center;
+        }
+
+        .p-image-preview-indicator {
+          height: inherit;
+          width: inherit;
+          border-radius: 20px;
+        }
+      }
+
+      .upload-cover-pic {
+        position: absolute;
+        bottom: 30px;
+        right: 50px;
+        display: flex;
+        gap: 15px;
+        align-items: center;
+        background-color: ghostwhite;
+        padding: 0.5rem;
+        border-radius: 10px;
+        font-weight: 500;
+      }
+    }
+
+    .profile-pic-sec {
+      height: 15vh;
+      position: relative;
+      display: flex;
+      justify-content: right;
+
+      .profile-pic-container {
+        // background-color: rgb(0, 255, 30);
+        height: 200px;
+        width: 200px;
+        position: absolute;
+        bottom: 10%;
+        left: 5%;
+        border-radius: 50%;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+        background-color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .profile-pic {
+          height: 98%;
+          width: 98%;
+          border-radius: 50%;
+
+          img {
+            height: 100%;
+            width: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            object-position: center;
+          }
+
+          .p-image-preview-indicator {
+            border-radius: 50% !important;
+          }
+        }
+
+        .profile-pic-icon {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100%;
+          border-radius: 50%;
+          object-fit: contain;
+        }
+
+        .profile-camera {
+          position: absolute;
+          bottom: 18%;
+          right: 0;
+          font-size: 20px;
+          font-weight: 500;
+          background-color: whitesmoke;
+          border-radius: 50%;
+          height: 30px;
+          width: 30px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+      }
+
+      .profile-name-container {
+        width: 27%;
+        // background-color: beige;
+        display: flex;
+        flex-direction: column;
+        padding: 2rem 0.5rem;
+
+        .profile-name {
+          font-size: 30px;
+        }
+
+        .profile-bio {
+          font-size: 20px;
+        }
+      }
+
+      .profile-edit-setion {
+        width: 50%;
+        height: 100%;
+        // background-color: wheat;
+        display: flex;
+        align-items: end;
+        justify-content: end;
+        padding: 1.5rem 3rem;
+        gap: 15px;
+
+        .add-post,
+        .edit-profile {
+          background-color: lightgray;
+          padding: 0.5rem;
+          border-radius: 10px;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          font-weight: 500;
+        }
+      }
+    }
+
+    .myProfile-about-actions {
+      padding: 2rem 0.5rem;
+
+      .myProfile-about-main {
+        display: flex;
+        padding: 2rem 0.5rem;
+
+        .myProfile-about-sec-one {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          row-gap: 10px;
+
+          .myProfile-about-sec-one-items {
+            padding: 1rem 0.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 10px;
+          }
+          .myProfile-about-sec-one-items:hover {
+            background-color: #d0d3d7;
+          }
+        }
+
+        .myProfile-about-sec-two {
+          flex: 2;
+          padding: 2rem 2rem;
+
+          .myProfile-phone-email {
+            display: flex;
+            flex-direction: column;
+
+            span {
+              padding: 1rem 0.5rem;
+              display: flex;
+              align-items: center;
+              gap: 10px;
+              font-size: 20px;
+
+              i {
+                font-size: 20px;
+              }
+            }
+          }
+
+          .myProfile-relationship-section {
+            padding: 2rem 2rem;
+
+            span {
+              display: flex;
+              align-items: center;
+              gap: 10px;
+              font-size: 24px;
+
+              i {
+                font-size: 24px;
+              }
+            }
+          }
+
+          .myProfile-birthday-section {
+            padding: 2rem 2rem;
+            span {
+              display: flex;
+              align-items: center;
+              gap: 10px;
+              font-size: 20px;
+
+              i {
+                font-size: 20px;
+              }
+            }
+          }
+
+          .myProfile-school-section {
+            .myProfile-schooling-container {
+              display: flex;
+              flex-direction: column;
+              padding: 1rem 0.5rem;
+
+              .myProfile-school-education-container {
+                padding: 0.5rem 2rem;
+                display: flex;
+                justify-content: space-between;
+
+                .myProfile-school-education {
+                  font-size: 24px;
+                  display: flex;
+                  align-items: center;
+                  gap: 10px;
+                  i {
+                    font-size: 20px;
+                  }
+                }
+              }
+
+              .myProfile-school-name {
+                padding: 0.5rem 4rem;
+              }
+            }
+
+            .myProfile-school-none {
+              padding: 0rem 3rem;
+            }
+          }
+
+          .myProfile-college-section {
+            .myProfile-college-container {
+              display: flex;
+              flex-direction: column;
+              padding: 1rem 0.5rem;
+
+              .myProfile-college-education-container {
+                padding: 0.5rem 2rem;
+                display: flex;
+                justify-content: space-between;
+
+                .myProfile-college-education {
+                  font-size: 24px;
+                  display: flex;
+                  align-items: center;
+                  gap: 10px;
+                  i {
+                    font-size: 20px;
+                  }
+                }
+              }
+
+              .myProfile-college-name {
+                padding: 0.5rem 4rem;
+              }
+            }
+            .myProfile-college-none {
+              padding: 0rem 3rem;
+            }
+          }
+
+          .myProfile-company-section {
+            .myProfile-company-container {
+              display: flex;
+              flex-direction: column;
+              padding: 1rem 0.5rem;
+
+              .myProfile-company-education-container {
+                padding: 0.5rem 2rem;
+                display: flex;
+                justify-content: space-between;
+
+                .myProfile-company-education {
+                  font-size: 24px;
+                  display: flex;
+                  align-items: center;
+                  gap: 10px;
+                  i {
+                    font-size: 20px;
+                  }
+                }
+              }
+
+              .myProfile-company-name {
+                padding: 0.5rem 4rem;
+              }
+            }
+            .myProfile-work-none {
+              padding: 0rem 3rem;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.add-post-dialoge {
+  width: 42vw !important;
+  height: auto;
+  max-height: 60vh;
+  min-height: 50vh;
+
+  // .dialoge-body {
+  //   display: flex;
+  //   flex-direction: column;
+  //   height: 100%;
+  //   justify-content: space-between;
+  //   background-color: beige;
+  //   .editor-container {
+  //     height: 50%;
+  //     .add-post-editor {
+  //       height: auto;
+  //       .p-editor-content {
+  //         border: none;
+  //       }
+  //     }
+  //   }
+
+  //   .add-post-image {
+  //     display: flex;
+  //     justify-content: space-between;
+  //     padding: 1rem 1rem;
+  //     background-color: aqua;
+
+  //     span {
+  //       width: 30%;
+
+  //       i {
+  //         font-size: 25px;
+  //       }
+  //     }
+  //   }
+
+  //   .add-post-button {
+  //     padding: 1rem 2rem;
+  //     background-color: aquamarine;
+  //     display: flex;
+  //     justify-content: end;
+
+  //     Button {
+  //       box-shadow: none;
+  //       border: none;
+  //     }
+  //   }
+  // }
+
+  .p-dialog-content {
+    display: flex;
+    flex-direction: column;
+
+    .editor-container {
+      flex: 1;
+    }
+
+    .add-post-image {
+      flex: 0.1;
+      width: 100%;
+
+      span {
+        width: 30%;
+
+        i {
+          font-size: 25px;
+        }
+      }
+    }
+    .add-post-button {
+      width: 100%;
+      flex: 0.1;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      padding: 0rem 1rem;
+
+      Button {
+        box-shadow: none;
+        border: none;
+      }
+    }
+  }
+}
+
+

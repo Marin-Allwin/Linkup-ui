@@ -1,0 +1,105 @@
+.login-page-main {
+  background-color: ghostwhite;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .login-page-container {
+    display: flex;
+    width: 50%;
+    height: 60%;
+
+    .login-page-container-part1 {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      .lp-c-p1-title {
+        font-size: 45px;
+        width: 80%;
+        font-weight: 700;
+        color: #0866ff;
+      }
+
+      .lp-c-p1-content {
+        font-size: 20px;
+        font-weight: 400;
+        width: 80%;
+        height: 40%;
+      }
+    }
+
+    .login-page-container-part2 {
+      display: flex;
+      flex: 1;
+      justify-content: center;
+      align-items: center;
+
+      .lp-c-p2-form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        background-color: white;
+        border-radius: 10px;
+        gap: 5px;
+        height: 85%;
+        width: 85%;
+        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+
+        .form-section {
+          display: flex;
+          justify-content: center;
+          padding: 0.5rem 2rem;
+
+          .form-inputs {
+            box-shadow: none;
+          }
+
+          .form-button {
+            border: none;
+            box-shadow: none;
+
+            .verify-spinner circle {
+              stroke: white !important;
+            }
+
+            span {
+              width: 100%;
+              font-size: 16px;
+            }
+          }
+
+          .p-inputtext,
+          .p-password,
+          .p-icon-field {
+            width: 100%;
+            box-shadow: none;
+            outline: none;
+          }
+        }
+        .forgot-password {
+          font-size: 12px;
+          font-weight: 500;
+          text-align: end;
+          padding-right: 10px;
+          margin: 0 2rem;
+          cursor: pointer;
+          padding-bottom: 20px;
+          border-bottom: 2px solid lightgray;
+          color: #0866ff;
+        }
+
+        Dialog {
+          .signUp-dialoge-sec-one {
+            display: flex;
+            gap: 20px;
+            background-color: #0866ff;
+          }
+        }
+      }
+    }
+  }
+}
