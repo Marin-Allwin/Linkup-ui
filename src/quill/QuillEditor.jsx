@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import Quill from 'quill';
 import 'quill/dist/quill.bubble.css';  
-import 'quill-emoji/dist/quill-emoji.css';
+// import 'quill-emoji/dist/quill-emoji.css';
 import "./QuillEditor.scss"
 
 function QuillEditor() {

@@ -15,6 +15,8 @@ import "./App.css";
 import People from "./people/People";
 import ViewPeople from "./viewPeople/ViewPeople";
 import AddPost from "./addPost/AddPost";
+import MyPosts from "./myposts/MyPosts";
+import Chat from "./chat/Chat";
 
 function AppContent() {
   const location = useLocation();
@@ -36,12 +38,14 @@ function AppContent() {
         <Route path="/sign-up" element={<SignUp />}></Route>
         <Route path="/forgot-password" element={<FotgotPassword />}></Route>
         <Route path="/linkup" element={<LandingPage />}></Route>
-        <Route path="/profile" element={<Profile />}></Route>
+        <Route path="/profile" element={<Profile />}>
+          <Route path="my-posts" element={<MyPosts />}></Route>
+        </Route>
         <Route path="/edit-profile" element={<EditProfile />}></Route>
         <Route path="/people" element={<People />}></Route>
         <Route path="/newPost" element={<AddPost />}></Route>
         <Route path="/people/:firstNameLastName" element={<ViewPeople />} />
-
+        <Route path="/chat" element={<Chat />} />
       </Routes>
     </div>
   );

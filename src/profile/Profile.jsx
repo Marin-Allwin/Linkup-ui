@@ -5,7 +5,7 @@ import Cookies from "js-cookie";
 import axios from "axios";
 import { useUserContext } from "../contextFolder/UserProvider ";
 import profileIconImage from "../assets/profileImg.jpg";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate, Outlet, useNavigate } from "react-router-dom";
 import { Divider } from "primereact/divider";
 import { TabMenu } from "primereact/tabmenu";
 import { Dialog } from "primereact/dialog";
@@ -16,40 +16,63 @@ import MyReactProfile from "../myReactProfile/MyReactProfile";
 import Editor from "../confugurations/Editor";
 import { Tooltip } from "primereact/tooltip";
 import QuillEditor from "../quill/QuillEditor";
+import { Toast } from "primereact/toast";
+import ReactQuill from "react-quill";
+import api from "../axiosInceptor/api";
+// import AddNewPost from "./AddNewPost";
+import AddPostDialog from "./AddPostDialog";
 
 export default function Profile() {
   const Bearer = Cookies.get("access_Token");
   const email = localStorage.getItem("userEmail");
   const [profileImage, setProfileImage] = useState();
   const [coverPic, setCoverPic] = useState();
-  const { userData, setUserData } = useUserContext();
+  const { userData, setUserData, SetShowAddPost } = useUserContext();
   const { refresh, setRefresh } = useUserContext();
   const navigate = useNavigate();
 
-  const [showAddPost, SetShowAddPost] = useState(false);
-
   const [textValue, setTextValue] = useState("");
+  
 
-  const [selectedFile, setSelectedFile] = useState(null);
+  // const [selectedFile, setSelectedFile] = useState(null);
+  // const [imagePreview, setImagePreview] = useState(null);
+  const toast = useRef(null);
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setSelectedFile(URL.createObjectURL(file));
-    }
-  };
+  console.log(textValue);
 
-  const handleTextChange = (e) => {
-    setTextValue(e.htmlValue);
-    console.log("Editor content:", e.htmlValue);
-  };
+  // const handleFileChange = (e) => {
+  //   const file = e.target.files[0];
+  //   if (file) {
+  //     setSelectedFile(URL.createObjectURL(file));
+  //   }
+  // };
+
+  // const handleFileChange = (e) => {
+  //   const file = e.target.files[0];
+  //   if (file) {
+  //     setSelectedFile(file);
+  //     setImagePreview(URL.createObjectURL(file));
+  //   }
+  // };
+
+  // const handleTextChange = (e) => {
+  //   setTextValue(e.htmlValue);
+  //   // console.log("Editor content:", e.htmlValue);
+  //   console.log(textValue, "value");
+  // };
 
   const [showAbout, setShowAbout] = useState("status");
 
   const [tabName, SetTabName] = useState("about");
   const items = [
     { label: "About", command: () => SetTabName("about") },
-    { label: "Posts", command: () => SetTabName("post") },
+    {
+      label: "Posts",
+      command: () => {
+        SetTabName("post");
+        navigate("my-posts");
+      },
+    },
   ];
 
   const fileInputRef = useRef(null);
@@ -69,6 +92,45 @@ export default function Profile() {
   const handlePostImgClick = () => {
     postPicRef.current.click();
   };
+
+  // const addPostForm = new FormData();
+
+  // const handleAddPost = () => {
+  //   addPostForm.append("email", email);
+
+  //   if (textValue) {
+  //     addPostForm.append("content", textValue);
+  //   }
+
+  //   if (selectedFile) {
+  //     addPostForm.append("postImage", selectedFile);
+  //   }
+
+  //   console.log(selectedFile);
+  //   console.log(textValue);
+
+  //   axios
+  //     .post(`http://localhost:8080/user/add-post`, addPostForm, {
+  //       headers: {
+  //         Authorization: `Bearer ${Bearer}`,
+  //       },
+  //     })
+  //     .then((response) => {
+  //       toast.current.show({
+  //         severity: "success",
+  //         summary: "Success",
+  //         detail: "Posted Successfully",
+  //       });
+  //       console.log(response);
+  //       setTimeout(() => {
+  //         SetShowAddPost(false);
+  //         setSelectedFile(null);
+  //         setImagePreview(null);
+  //         setTextValue("");
+  //       }, 2000);
+  //     })
+  //     .catch((error) => console.error(error));
+  // };
 
   const handleProfileChange = async (e) => {
     const profile = e.target.files[0];
@@ -108,8 +170,8 @@ export default function Profile() {
       CoverData.append("email", email);
 
       try {
-        const profileUploadResponse = await axios.post(
-          `http://localhost:8080/user/upload-coverPic`,
+        const profileUploadResponse = await api.post(
+          `/user/upload-coverPic`,
           CoverData,
           {
             headers: {
@@ -144,6 +206,7 @@ export default function Profile() {
 
   return (
     <>
+      <Toast ref={toast} />
       <div className="profile-main">
         <div className="profile-container">
           <div className="cover-pic-container">
@@ -397,11 +460,15 @@ export default function Profile() {
                 </div>
               </div>
             )}
-            {tabName === "post" && <div>post</div>}
+            {tabName === "post" && (
+              <div>
+                <Outlet />
+              </div>
+            )}
           </div>
         </div>
       </div>
-      <Dialog
+      {/* <Dialog
         header="Add Post"
         visible={showAddPost}
         style={{ width: "50vw" }}
@@ -410,6 +477,8 @@ export default function Profile() {
           if (!showAddPost) return;
           SetShowAddPost(false);
           setSelectedFile(null);
+          setImagePreview(null);
+          setTextValue("");
         }}
         className="add-post-dialoge"
       >
@@ -419,16 +488,12 @@ export default function Profile() {
           position="right"
         />
         <div className="editor-container">
-          {/* <Editor
+          <ReactQuill
+            theme="bubble"
             value={textValue}
-            onTextChange={handleTextChange}
+            onChange={setTextValue}
             className="add-post-editor"
-          /> */}
-
-          <QuillEditor
-            value={textValue}
-            onTextChange={handleTextChange}
-            className="add-post-editor"
+            placeholder="Share something....."
           />
         </div>
         <div className="add-post-image">
@@ -444,12 +509,26 @@ export default function Profile() {
             </i>
           </span>
 
-          <MyReactProfile imageSrc={selectedFile} />
+          <div className="show-image-container">
+            {selectedFile && (
+              <img
+                src={imagePreview}
+                alt="Selected"
+                style={{ width: "180px", height: "200px" }}
+                className="post-image"
+              />
+            )}
+          </div>
         </div>
         <div className="add-post-button">
-          <Button label="Post" />
+          <Button
+            label="Post"
+            onClick={handleAddPost}
+            disabled={!selectedFile && !textValue}
+          />
         </div>
-      </Dialog>
+      </Dialog> */}
+      <AddPostDialog />
     </>
   );
 }

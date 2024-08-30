@@ -9,6 +9,7 @@ import { Password } from "primereact/password";
 
 import { Dialog } from "primereact/dialog";
 import axios from "axios";
+import api from "../axiosInceptor/api";
 
 export default function FotgotPassword() {
   const [forgotEmail, setForgotEmail] = useState();
@@ -24,8 +25,8 @@ export default function FotgotPassword() {
 
   const isAccountExist = async () => {
     try {
-      const response = await axios.post(
-        `http://localhost:8080/linkup/find-account?email=${forgotEmail}`,
+      const response = await api.post(
+        `/linkup/find-account?email=${forgotEmail}`,
         {},
         {}
       );
@@ -108,7 +109,6 @@ export default function FotgotPassword() {
       setTimeout(() => {
         navigate("/");
       }, 400);
-
     } catch (error) {
       toast.current.show({
         severity: "info",

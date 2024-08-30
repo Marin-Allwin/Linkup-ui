@@ -9,6 +9,7 @@ import { Button } from "primereact/button";
 import { Toast } from "primereact/toast";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import api from "../axiosInceptor/api";
 
 export default function SignUp() {
   const [selectedGender, setSelectedGender] = useState(null);
@@ -33,8 +34,8 @@ export default function SignUp() {
 
   const SignUp = async () => {
     try {
-      const response = await axios.post(
-        "http://localhost:8080/linkup/sign-up",
+      const response = await api.post(
+        "/linkup/sign-up",
         {
           firstName: firstName,
           lastName: lastName,

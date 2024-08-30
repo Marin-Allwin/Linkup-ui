@@ -1,0 +1,22 @@
+.chat-main{
+    padding-top: 8vh;
+    display: flex;
+    justify-content: center;
+
+    .chat-container{
+        width: 60%;
+        background-color: aqua;
+        display: flex;
+        height: 92vh;
+
+        .all-chat{
+            width: 30%;
+            background-color: aquamarine;
+        }
+
+        .personal-chat{
+            width: 70%;
+            background-color: bisque;
+        }
+    }
+}

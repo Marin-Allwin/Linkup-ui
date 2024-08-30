@@ -12,6 +12,7 @@ import { useUserContext } from "../contextFolder/UserProvider ";
 import Lottie from "lottie-react";
 import Loading from "../animations/Loading.json";
 import { format, parseISO } from "date-fns";
+import api from "../axiosInceptor/api";
 
 export default function EditProfile() {
   const [showName, setShowName] = useState(false);
@@ -64,14 +65,13 @@ export default function EditProfile() {
   ];
 
   const handleISTChange = (date) => {
-
     const utcDate = new Date(date);
 
-    const istOffset = 5.5 * 60 * 60 * 1000; 
+    const istOffset = 5.5 * 60 * 60 * 1000;
     const istDate = new Date(utcDate.getTime() + istOffset);
 
-    return istDate
-  }
+    return istDate;
+  };
 
   const [showSection, setShowSection] = useState("about");
   const [school, setSchool] = useState();
@@ -79,15 +79,6 @@ export default function EditProfile() {
   const handleUpdate = () => {
     handleUpdateDetails(sampleUserData);
     setIsLoading(true);
-
-    // console.log(sampleUserData);
-
-
- 
-
-    // console.log("UTC Date:", utcDate.toISOString());
-    // console.log("IST Date:", istDate.toISOString());
-    // console.log("IST Date (Local):", istDate.toString());
   };
 
   const handleCancel = () => {
@@ -203,15 +194,11 @@ export default function EditProfile() {
   const handleUpdateDetails = async (a) => {
     console.log(a);
     try {
-      const response = await axios.post(
-        `http://localhost:8080/user/update-datails`,
-        a,
-        {
-          headers: {
-            Authorization: `Bearer ${Bearer}`,
-          },
-        }
-      );
+      const response = await api.post(`/user/update-datails`, a, {
+        headers: {
+          Authorization: `Bearer ${Bearer}`,
+        },
+      });
 
       setUserData((prevData) => ({
         ...prevData,

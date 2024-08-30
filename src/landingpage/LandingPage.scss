@@ -1,25 +1,126 @@
 .landingpage-main {
-//   background-color: ghostwhite;
-  height: 92vh;
+  //   background-color: ghostwhite;
+  height: auto;
   width: 100%;
   display: flex;
-
-  .landingpage-sec-one {
-    flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 10vh;
+  
+  .landing-header{
     display: flex;
+    width: 53%;
+    padding: 2rem 4rem;
     // background-color: aqua;
-    height: 100%;
+    border-radius: 10px;
+    box-shadow: hsla(0, 0%, 0%, 0.1) 0px 4px 12px;
+
   }
+
   .landingpage-sec-two {
-    flex: 2;
+    width: 60%;
     display: flex;
-    // background-color: aquamarine;
-    height: 100%;
-  }
-  .landingpage-sec-three {
-    flex: 1;
-    display: flex;
-    // background-color: antiquewhite;
-    height: 100%;
+    flex-direction: column;
+    height: auto;
+    padding: 0rem 4rem;
+    
+
+    .landing-post-container {
+      padding: 2rem 1rem;
+      border: 1px solid lightgray;
+      border-radius: 10px;
+      margin: 2rem 0rem;
+      width: 100%;
+
+      .landing-post-header {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .landing-header-image-container {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 60px;
+          width: 60px;
+
+          img {
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            background-position: center;
+            box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+          }
+        }
+
+        .landing-header-about {
+          width: 90%;
+          height: auto;
+          padding: 0rem 1rem;
+          display: flex;
+          flex-direction: column;
+
+          .person-about {
+            font-size: 18px;
+          }
+
+          .post-date {
+            font-size: 13px;
+            font-weight: 500;
+          }
+        }
+      }
+
+      .landing-post-body {
+        height: auto;
+
+        .landing-post-content{
+          padding: 0rem 2rem;
+        }
+
+        .landing-post-image {
+          img {
+            height: 500px;
+            width: 100%;
+            object-fit: contain;
+          }
+        }
+      }
+
+      .landing-post-footer {
+        display: flex;
+        height: 20px;
+
+        .landing-footer-part-one {
+          flex: 1;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .landing-footer-part-two {
+          flex: 1;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .landing-footer-part-three {
+          flex: 1;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .landing-footer-part-four {
+          flex: 1;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+    }
   }
 }

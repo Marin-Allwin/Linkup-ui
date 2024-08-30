@@ -11,6 +11,7 @@ import axios from "axios";
 import { InputOtp } from "primereact/inputotp";
 import { useNavigate } from "react-router-dom";
 import Cookies from 'js-cookie';
+import api from "../axiosInceptor/api";
 
 export default function LoginPage() {
   const [email, setEmail] = useState();
@@ -27,8 +28,8 @@ export default function LoginPage() {
   const loginRequest = async () => {
     setSpinner(true);
     try {
-      const response = await axios.post(
-        "http://localhost:8080/linkup/login",
+      const response = await api.post(
+        "/linkup/login",
         {
           email: email,
           password: password,
@@ -39,7 +40,7 @@ export default function LoginPage() {
       Cookies.set('refresh_Token', response.data.refreshToken);
       localStorage.setItem('userEmail', response.data.person.email);
       localStorage.setItem('profile', response.data.person?.profileImg);
-      console.log(response.data);
+      // console.log(response.data);
       
       setTimeout(() => {
         navigate("/linkup");

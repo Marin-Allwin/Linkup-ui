@@ -1,0 +1,68 @@
+.add-post-dialoge {
+    width: 42vw !important;
+    height: auto;
+    max-height: 60vh;
+    min-height: 50vh;
+  
+    .p-dialog-content {
+      display: flex;
+      flex-direction: column;
+  
+      .editor-container {
+        flex: 1;
+  
+        .add-post-editor{
+          .ql-tooltip{
+            left: 50px !important;
+  
+            .ql-tooltip-arrow{
+                display: none;
+            }
+        }
+  
+        }
+      }
+  
+      .add-post-image {
+        flex: 0.1;
+        width: 100%;
+        display: flex;
+  
+        span {
+          width: 30%;
+  
+          i {
+            font-size: 25px;
+          }
+        }
+  
+        .show-image-container{
+          width: 70%;
+          // background-color: aqua;
+          display: flex;
+          justify-content: center;
+  
+          .post-image{
+            height: 200px;
+            width: 180px;
+            object-fit: contain;
+            background-position: center;
+          }
+        }
+      }
+      .add-post-button {
+        width: 100%;
+        flex: 0.1;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        padding: 1rem 1rem;
+  
+        Button {
+          box-shadow: none;
+          border: none;
+        }
+      }
+    }
+  }
+  

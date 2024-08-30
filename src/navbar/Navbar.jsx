@@ -13,6 +13,8 @@ import { useUserContext } from "../contextFolder/UserProvider ";
 import { Image } from "primereact/image";
 import { Menu } from "primereact/menu";
 import { Button } from "primereact/button";
+import api from "../axiosInceptor/api";
+import logo from "../assets/Black And White Illustrated Eagle Logo (7).png"
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -20,7 +22,7 @@ export default function Navbar() {
   const { userData, setUserData } = useUserContext();
   const { refresh, setRefresh } = useUserContext();
 
-  console.log(refresh)
+  console.log(refresh);
   const menuRight = useRef(null);
   const items = [
     {
@@ -46,8 +48,8 @@ export default function Navbar() {
   const email = localStorage.getItem("userEmail");
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:8080/user/get-person?email=${email}`, {
+    api
+      .get(`/user/get-person?email=${email}`, {
         headers: {
           Authorization: `Bearer ${Bearer}`,
         },
@@ -62,9 +64,9 @@ export default function Navbar() {
 
   const handleLogOut = () => {
     console.log("logout");
-    axios
+    api
       .post(
-        `http://localhost:8080/user/logout?email=${email}`,
+        `/user/logout?email=${email}`,
         {},
         {
           headers: {
@@ -86,7 +88,10 @@ export default function Navbar() {
   return (
     <div className="navbar-main">
       <div className="navbar-sec-one">
-        <div>logo</div>
+        <div className="title">
+          <img className="linkup-logo" src={logo}/>
+          Linkup
+        </div>
         <div className="navbar-search">
           <IconField>
             <InputIcon className="pi pi-search"> </InputIcon>
@@ -96,11 +101,17 @@ export default function Navbar() {
       </div>
       <div className="navbar-sec-two">
         <div className="navbar-sec-two-container">
-          <div className="navbar-sec-two-items" onClick={() => navigate("/linkup")}>
+          <div
+            className="navbar-sec-two-items"
+            onClick={() => navigate("/linkup")}
+          >
             <i className="pi pi-home"></i>
           </div>
-          <div className="navbar-sec-two-items" onClick={() => navigate("/people")}>
-            <i className="pi pi-user" ></i>
+          <div
+            className="navbar-sec-two-items"
+            onClick={() => navigate("/people")}
+          >
+            <i className="pi pi-user"></i>
           </div>
           <div className="navbar-sec-two-items">
             <i className="pi pi-youtube"></i>
@@ -113,7 +124,7 @@ export default function Navbar() {
       <div className="navbar-sec-three">
         <div className="nav-sec-three-container">
           <div className="navbar-sec-three-items">
-            <FontAwesomeIcon icon={faMessage} className="nav-sec-three-icons" />
+            <FontAwesomeIcon icon={faMessage} className="nav-sec-three-icons" onClick={()=>navigate("/chat")}/>
           </div>
           <div className="navbar-sec-three-items">
             <FontAwesomeIcon icon={faBell} className="nav-sec-three-icons" />

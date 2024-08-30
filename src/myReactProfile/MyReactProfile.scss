@@ -1,4 +1,13 @@
 .my-react-profile {
+  width: 70%;
+  .my-react-profile-container{
+    display: flex;
+    justify-content: space-evenly;
+    .image-styling{
+      border: 1px solid lightgray;
+      border-radius: 10px;
+    }
+  }
   .editing-section {
   }
 }

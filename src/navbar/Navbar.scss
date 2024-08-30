@@ -1,16 +1,32 @@
 .navbar-main {
   height:8vh;
-    // background-color: aqua;
   width: 100%;
   display: flex;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
-//   border-bottom: 2px solid lightgray;
+  box-shadow: hsla(0, 0%, 0%, 0.1) 0px 4px 12px;
+  position: fixed;
+  z-index: 1000;
+  background-color: white;
 
   .navbar-sec-one {
     flex: 1;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-around;
+    gap: 10px;
+
+    .title{
+      font-size: 20px;
+      color: #0866ff;
+      font-weight: 650;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+
+      .linkup-logo{
+        height: 35px;
+        width: 35px;
+      }
+    }
 
     .navbar-search {
       .p-inputtext {
@@ -41,7 +57,7 @@
         align-items: center;
 
         i {
-          font-size: 20px;
+          font-size: 25px;
           font-weight: 500;
           color: gray;
         }
@@ -69,9 +85,10 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        color: gray;
 
         .nav-sec-three-icons {
-          font-size: 20px;
+          font-size: 25px;
         }
 
         .nav-profile{
