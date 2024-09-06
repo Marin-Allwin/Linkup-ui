@@ -1,24 +1,116 @@
-import React, { createContext, useState, useContext, useRef } from "react";
-import api from "../axiosInceptor/api";
+import React, { createContext, useContext, useState, useEffect } from "react";
+import { Client } from "@stomp/stompjs";
+import SockJS from "sockjs-client";
 import Cookies from "js-cookie";
-import { Toast } from "primereact/toast";
 
 const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
-
   const [userData, setUserData] = useState(null);
   const [refresh, setRefresh] = useState(true);
-
   const [showAddPost, SetShowAddPost] = useState(false);
-  const [textValue, setTextValue] = useState("");
-  // const postPicRef = useRef(null);
-  // const [selectedFile, setSelectedFile] = useState(null);
-  // const [imagePreview, setImagePreview] = useState(null);
+  const [showComments, setShowComments] = useState(false);
+  const [stompClient, setStompClient] = useState(null);
+  const [isConnected, setIsConnected] = useState(false);
+  const [landingPageNotification, setLandingPageNotification] = useState();
+  const [peopleNotificatoin, setPeopleNotification] = useState();
+  const [bellNotification, setBellNotification] = useState()
+  const [allPost, setAllPost] = useState();
+  const email = localStorage.getItem("userEmail");
+  const Bearer = Cookies.get("access_Token");
 
-  // const handlePostImgClick = () => {
-  //   postPicRef.current.click();
-  // };
+  console.log("this is email :" + email);
+
+  useEffect(() => {
+    const client = new Client({
+      brokerURL: "ws://localhost:8080/ws",
+      reconnectDelay: 5000,
+      webSocketFactory: () => new SockJS("http://localhost:8080/ws"),
+      connectHeaders: {
+        Authorization: `Bearer ${Bearer}`,
+      },
+      onConnect: () => {
+        console.log("Connected to WebSocket");
+        setIsConnected(true);
+
+        // client.subscribe("/public/notifications", (message) => {
+        //   console.log("Received notification: " + message.body);
+        // });
+
+        // client.subscribe(`/user/${email}/queue/notifications`, (message) => {
+        //   try {
+        //     const notification = JSON.parse(message.body);
+        //     alert(notification.message);
+        //     console.log("Received private notification:", notification);
+        //   } catch (e) {
+        //     console.error("Failed to parse notification message:", e);
+        //   }
+        // });
+      },
+      onStompError: (frame) => {
+        console.error("Broker error:", frame.headers["message"]);
+        setIsConnected(false);
+      },
+    });
+
+    client.activate();
+    setStompClient(client);
+
+    return () => {
+      client.deactivate();
+    };
+  }, []);
+
+  // useEffect(() => {
+  //   const client = new Client({
+  //     brokerURL: "ws://localhost:8080/ws",
+  //     reconnectDelay: 5000,
+  //     webSocketFactory: () => new SockJS("http://localhost:8080/ws"),
+  //     connectHeaders: {
+  //       Authorization: `Bearer ${Bearer}`,
+  //     },
+  //     onConnect: () => {
+  //       console.log("Connected to WebSocket");
+  //       setIsConnected(true);
+  //     },
+  //     onStompError: (frame) => {
+  //       console.error("Broker error:", frame.headers["message"]);
+  //       setIsConnected(false);
+  //     },
+  //   });
+
+  //   client.activate();
+  //   setStompClient(client);
+
+  //   // Cleanup on unmount
+  //   return () => {
+  //     client.deactivate();
+  //   };
+  // }, []);
+
+  // useEffect(() => {
+  //   if (isConnected && email !== null) {
+  //     console.log("Inside function: " + email);
+
+  //     const subscription = stompClient.subscribe(`/user/${email}/queue/notifications`, (message) => {
+  //       console.log("Received message: " + message.body); // Log the message
+  //       try {
+  //         const notification = JSON.parse(message.body);
+  //         alert(notification.message); // Show an alert with the notification message
+  //         console.log("Received private notification:", notification); // Log the notification
+  //       } catch (e) {
+  //         console.error("Failed to parse notification message:", e); // Log any JSON parsing errors
+  //       }
+  //     });
+
+  //     // Cleanup subscription on unmount
+  //     return () => {
+  //       subscription.unsubscribe();
+  //     };
+  //   } else {
+  //     console.log("Connection not established or email is null");
+  //   }
+  // }, [isConnected, email]); // Add dependencies to trigger the effect
 
   return (
     <UserContext.Provider
@@ -29,18 +121,20 @@ export const UserProvider = ({ children }) => {
         setRefresh,
         showAddPost,
         SetShowAddPost,
-        textValue,
-        setTextValue,
-        // handlePostImgClick,
-        // handleFileChange,
-        // selectedFile,
-        // imagePreview,
-        // postPicRef,
-        // handleAddPost,
-        // setSelectedFile
+        stompClient,
+        isConnected,
+        landingPageNotification,
+        setLandingPageNotification,
+        showComments,
+        setShowComments,
+        peopleNotificatoin,
+        setPeopleNotification,
+        allPost,
+        setAllPost,
+        bellNotification,
+        setBellNotification
       }}
     >
-      {" "}
       {children}
     </UserContext.Provider>
   );

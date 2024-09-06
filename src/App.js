@@ -55,7 +55,7 @@ function App() {
   return (
     <BrowserRouter>
       <UserProvider>
-        <AppContent />
+          <AppContent />
       </UserProvider>
     </BrowserRouter>
   );

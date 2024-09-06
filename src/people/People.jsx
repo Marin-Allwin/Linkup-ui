@@ -14,14 +14,25 @@ import SockJS from "sockjs-client";
 import WebSocketComponent from "../websocket/WebSocketComponent";
 
 export default function People() {
-  const [tabMenu, setTabMenu] = useState("myfriends");
+  const [tabMenu, setTabMenu] = useState("requests");
   const [findFriends, setFindFriends] = useState([]);
   const [requests, setRequests] = useState([]);
   const [myFriends, setMyFriends] = useState([]);
   const email = localStorage.getItem("userEmail");
   const Bearer = Cookies.get("access_Token");
-  const { userData, setUserData } = useUserContext();
   const [fetchData, setFetchData] = useState(true);
+
+  const {
+    userData,
+    setUserData,
+    isConnected,
+    stompClient,
+    peopleNotificatoin,
+    setPeopleNotification,
+  } = useUserContext();
+
+  console.log(isConnected);
+  console.log("this is request " + requests);
 
   const navigate = useNavigate();
 
@@ -29,12 +40,6 @@ export default function People() {
   console.log(requests);
 
   const items = [
-    {
-      label: "MyFriend",
-      command: () => {
-        setTabMenu("myfriends");
-      },
-    },
     {
       label: "Requests",
       command: () => {
@@ -45,6 +50,12 @@ export default function People() {
       label: "Find Friends",
       command: () => {
         setTabMenu("find");
+      },
+    },
+    {
+      label: "MyFriend",
+      command: () => {
+        setTabMenu("myfriends");
       },
     },
   ];
@@ -73,52 +84,12 @@ export default function People() {
       })
       .then((response) => {
         setRequests(response.data);
-        console.log(response.da);
+        console.log(response.data);
       })
       .catch((error) => {
         console.log(error);
       });
   }, [fetchData]);
-
-  // useEffect(() => {
-  //   const fetchRequests = () => {
-  //     api
-  //       .get(`/user/request-received?email=${email}`, {
-  //         headers: {
-  //           Authorization: `Bearer ${Bearer}`,
-  //         },
-  //       })
-  //       .then((response) => {
-  //         setRequests(response.data);
-  //       })
-  //       .catch((error) => {
-  //         console.log(error);
-  //       });
-  //   };
-
-  //   fetchRequests();  // Fetch requests initially
-
-  //   const client = new Client({
-  //     brokerURL: "ws://localhost:8080/ws",
-  //     reconnectDelay: 5000,
-  //     webSocketFactory: () => new SockJS("http://localhost:8080/ws"),
-  //     onConnect: () => {
-  //       console.log("Connected to WebSocket");
-
-  //       // Subscribe to the user's notifications
-  //       client.subscribe(`/topic/notifications/${email}`, () => {
-  //         // Re-fetch requests when a notification is received
-  //         fetchRequests();
-  //       });
-  //     },
-  //   });
-
-  //   client.activate();
-
-  //   return () => {
-  //     client.deactivate();
-  //   };
-  // }, [email, Bearer]);
 
   useEffect(() => {
     api
@@ -129,7 +100,7 @@ export default function People() {
       })
       .then((response) => {
         setMyFriends(response.data);
-        console.log(response.da);
+        console.log(response.data);
       })
       .catch((error) => {
         console.log(error);
@@ -216,59 +187,31 @@ export default function People() {
 
   return (
     <>
-      <WebSocketComponent />
-
       <div className="people-main">
         <div className="people-container-overall">
           <TabMenu model={items} />
 
-          {tabMenu === "myfriends" && (
-            <div className="my-friends-container">
-              {myFriends &&
-                myFriends?.map((friend) => (
-                  <>
-                    <div className="friends-container">
-                      <div className="friends-container-part-one">
-                        <div className="friends-img">
-                          {friend?.profile != null ? (
-                            <img
-                              src={`${`data:image/jpeg;base64,${friend?.profile}`}`}
-                              className="friends-profile"
-                            />
-                          ) : (
-                            <img src={profile} className="friends-profile" />
-                          )}
-                        </div>
-                      </div>
-                      <div className="friends-container-part-two">
-                        <div className="friends-people-name">
-                          {friend?.firstName + " " + friend?.lastName}
-                        </div>
-                        <div className="friends-people-bio">{friend?.bio}</div>
-                      </div>
-                      <div className="friends-container-part-three"></div>
-                    </div>
-                    <Divider />
-                  </>
-                ))}
-            </div>
-          )}
+
           {tabMenu === "requests" && (
-            <div className="people-container ">
-              {requests &&
-                requests?.map((person) => (
-                  <>
+            <div className="people-container">
+              {requests && requests.length > 0 ? (
+                requests.map((person) => (
+                  <div key={person.email}>
+                    {" "}
+                    {/* Add a unique key for each item */}
                     <div className="request-container">
                       <div className="request-container-part-one">
                         <div className="request-img">
-                          {person?.profile != null ? (
+                          {person?.profile ? (
                             <img
-                              src={`${`data:image/jpeg;base64,${person?.profile}`}`}
+                              src={`data:image/jpeg;base64,${person.profile}`}
+                              alt="Profile"
                               className="find-people-profile"
                             />
                           ) : (
                             <img
                               src={profile}
+                              alt="Default Profile"
                               className="find-people-profile"
                             />
                           )}
@@ -276,7 +219,7 @@ export default function People() {
                       </div>
                       <div className="request-container-part-two">
                         <div className="find-people-name">
-                          {person.firstName + " " + person.lastName}
+                          {`${person.firstName} ${person.lastName}`}
                         </div>
                         <div className="find-people-bio">{person.bio}</div>
                       </div>
@@ -294,13 +237,17 @@ export default function People() {
                       </div>
                     </div>
                     <Divider />
-                  </>
-                ))}
+                  </div>
+                ))
+              ) : (
+                <div className="no-request">You don't have any requests</div>
+              )}
             </div>
           )}
+
           {tabMenu === "find" && (
             <div className="find-container">
-              {findFriends &&
+              {findFriends.length > 0 &&
                 findFriends?.map((person) => (
                   <>
                     <div className="find-people ">
@@ -346,6 +293,37 @@ export default function People() {
                     <Divider />
                   </>
                 ))}
+            </div>
+          )}
+          {tabMenu === "myfriends" && (
+            <div className="my-friends-container">
+              {myFriends.length > 0 ?
+                myFriends?.map((friend) => (
+                  <>
+                    <div className="friends-container">
+                      <div className="friends-container-part-one">
+                        <div className="friends-img">
+                          {friend?.profile != null ? (
+                            <img
+                              src={`${`data:image/jpeg;base64,${friend?.profile}`}`}
+                              className="friends-profile"
+                            />
+                          ) : (
+                            <img src={profile} className="friends-profile" />
+                          )}
+                        </div>
+                      </div>
+                      <div className="friends-container-part-two">
+                        <div className="friends-people-name">
+                          {friend?.firstName + " " + friend?.lastName}
+                        </div>
+                        <div className="friends-people-bio">{friend?.bio}</div>
+                      </div>
+                      <div className="friends-container-part-three"></div>
+                    </div>
+                    <Divider />
+                  </>
+                )) : <div className="no-friends">Let's find some friends</div>}
             </div>
           )}
         </div>

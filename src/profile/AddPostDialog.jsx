@@ -98,22 +98,20 @@ import "./AddPostDialog.scss";
 import Cookies from "js-cookie";
 import api from "../axiosInceptor/api";
 import { Toast } from "primereact/toast";
-
+import logo from "../assets/profile2.jpg";
+import EmojiPicker from "emoji-picker-react";
 
 const AddPostDialog = () => {
-  const {
-    showAddPost,
-    SetShowAddPost,
-    textValue,
-    setTextValue,
-    postPicRef,
-  } = useUserContext();
+  const { showAddPost, SetShowAddPost, userData } = useUserContext();
 
   const Bearer = Cookies.get("access_Token");
   const email = localStorage.getItem("userEmail");
   const toast = useRef(null);
+  const postPicRef = useRef(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
+  const [textValue, setTextValue] = useState("");
+  const [visibleEmojiPicker, setVisibleEmojiPicker] = useState(false)
 
   const addPostForm = new FormData();
 
@@ -166,11 +164,45 @@ const AddPostDialog = () => {
       .catch((error) => console.error(error));
   };
 
+  const customHeader = (
+    <div className="custom-header">
+      <img
+        src={
+          userData?.profileImg
+            ? `data:image/jpeg;base64,${userData?.profileImg}`
+            : logo
+        }
+        alt="profile img"
+      />
+      <div className="custom-header-about">
+        <div className="custom-header-name">
+          {" "}
+          {userData?.firstName + " " + userData?.lastName}
+        </div>
+        <div className="custom-header-bio"> {userData?.bio}</div>
+      </div>
+    </div>
+  );
+
+
+  const handleEmojiClick = (emojiObject) => {
+    console.log("Selected Emoji Object:", emojiObject);
+
+
+    if (emojiObject) {
+      setTextValue((prevValue) => prevValue + emojiObject.emoji); 
+      setVisibleEmojiPicker(false); 
+    } else {
+      console.error("Emoji is undefined or incorrect property.");
+    }
+  };
+
+
   return (
     <>
       <Toast ref={toast} />
       <Dialog
-        header="Add Post"
+        header={customHeader}
         visible={showAddPost}
         style={{ width: "50vw" }}
         draggable={false}
@@ -178,6 +210,7 @@ const AddPostDialog = () => {
           SetShowAddPost(false);
           setTextValue("");
           setSelectedFile("");
+          setVisibleEmojiPicker(false)
         }}
         className="add-post-dialoge"
       >
@@ -197,6 +230,9 @@ const AddPostDialog = () => {
         </div>
         <div className="add-post-image">
           <span>
+            <i className="pi pi-face-smile" onClick={() =>setVisibleEmojiPicker(x =>!x)}></i>
+          </span>
+          <span>
             <i className="pi pi-image add-image" onClick={handlePostImgClick}>
               <input
                 type="file"
@@ -207,6 +243,10 @@ const AddPostDialog = () => {
               />
             </i>
           </span>
+          <span>
+            <i className="pi pi-tag"></i>
+          </span>
+
           <div className="show-image-container">
             {selectedFile && (
               <img
@@ -218,6 +258,9 @@ const AddPostDialog = () => {
             )}
           </div>
         </div>
+        {visibleEmojiPicker &&<div className="emoji-picker-container">
+          <EmojiPicker className="emoji-picker" onEmojiClick={handleEmojiClick}/>
+        </div>}
         <div className="add-post-button">
           <Button
             label="Post"

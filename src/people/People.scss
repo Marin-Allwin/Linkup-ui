@@ -6,7 +6,7 @@
 
   .people-container-overall {
     width: 50%;
-    padding: 3rem 0rem;
+    padding: 3rem 4rem;
     .p-tabmenu .p-tabmenu-nav .p-tabmenuitem.p-highlight .p-menuitem-link {
       color: #0866ff;
       border-color: #0866ff;
@@ -69,6 +69,11 @@
           gap: 20px;
           align-items: center;
         }
+      }
+
+      .no-friends{
+        color: gray;
+        padding: 2rem 2rem;
       }
     }
 
@@ -140,6 +145,12 @@
             border: none;
           }
         }
+      }
+
+      .no-request{
+        // font-size: 20px;
+        color: gray;
+        padding: 2rem 2rem;
       }
     }
 

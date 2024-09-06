@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./EditProfile.scss";
 import { Divider } from "primereact/divider";
 import { InputText } from "primereact/inputtext";
@@ -13,6 +13,7 @@ import Lottie from "lottie-react";
 import Loading from "../animations/Loading.json";
 import { format, parseISO } from "date-fns";
 import api from "../axiosInceptor/api";
+import { Toast } from "primereact/toast";
 
 export default function EditProfile() {
   const [showName, setShowName] = useState(false);
@@ -20,6 +21,7 @@ export default function EditProfile() {
   const Bearer = Cookies.get("access_Token");
   const { userData, setUserData } = useUserContext();
   const [sampleUserData, setSampleUserData] = useState();
+  const toast = useRef(null);
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -194,7 +196,7 @@ export default function EditProfile() {
   const handleUpdateDetails = async (a) => {
     console.log(a);
     try {
-      const response = await api.post(`/user/update-datails`, a, {
+      const response = await api.post(`/user/update-details`, a, {
         headers: {
           Authorization: `Bearer ${Bearer}`,
         },
@@ -209,7 +211,18 @@ export default function EditProfile() {
       setTimeout(() => {
         setIsLoading(false);
       }, 2000);
-    } catch {}
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+      toast.current.show(
+        {
+          severity: "warn",
+          summary: "Error",
+          detail: "Something went wrong try again later",
+        },
+        2000
+      );
+    }
   };
 
   function formatDate(dateString) {
@@ -228,434 +241,443 @@ export default function EditProfile() {
   const convertDateToISO = (date) => (date ? date.toISOString() : "");
 
   return (
-    <div className="edit-profile-main">
-      {!isLoading ? (
-        <div className="edit-profile-container">
-          <Divider layout="vertical" type="solid" />
-          <div className="edit-profile-sec-one">
-            <div
-              className="ep-sec-one-containers"
-              onClick={() => setShowSection("about")}
-            >
-              About
-            </div>
-            <div
-              className="ep-sec-one-containers"
-              onClick={() => setShowSection("security")}
-            >
-              Security
-            </div>
-          </div>
-          <Divider layout="vertical" type="solid" />
-          <div className="edit-profile-sec-two">
-            {showSection === "about" && (
-              <div className="ep-about-sec">
-                <div className="ep-about-sec-items">
-                  <span onClick={() => setShowName("name")}>Name</span>
-                </div>
-                {showName === "name" && (
-                  <div className="show-section-name">
-                    <div className="show-section-name-part-one">
-                      <InputText
-                        placeholder={
-                          userData?.firstName
-                            ? userData?.firstName
-                            : "First Name"
-                        }
-                        onChange={(e) =>
-                          setSampleUserData({
-                            ...userData,
-                            firstName: e.target.value,
-                          })
-                        }
-                      />
-                      <InputText
-                        placeholder={
-                          userData?.lastName ? userData?.lastName : "Last Name"
-                        }
-                        onChange={(e) =>
-                          setSampleUserData({
-                            ...userData,
-                            lastName: e.target.value,
-                          })
-                        }
-                      />
-                    </div>
-                    <div className="show-section-name-part-two">
-                      <Button
-                        label="cancel"
-                        className="name-cancel"
-                        onClick={handleCancel}
-                      />
-                      <Button
-                        label="Update"
-                        className="name-cancel"
-                        onClick={handleUpdate}
-                      />
-                    </div>
-                  </div>
-                )}
-                <div className="ep-about-sec-items">
-                  <span onClick={() => setShowName("bio")}>Bio</span>
-                </div>
-                {showName === "bio" && (
-                  <div className="show-section-name">
-                    <div className="show-section-name-part-one">
-                      <InputText
-                        placeholder={userData?.bio ? userData?.bio : "Bio"}
-                        className="bio-input"
-                        onChange={(e) =>
-                          setSampleUserData({
-                            ...userData,
-                            bio: e.target.value,
-                          })
-                        }
-                      />
-                    </div>
-                    <div className="show-section-name-part-two">
-                      <Button
-                        label="cancel"
-                        className="name-cancel"
-                        onClick={handleCancel}
-                      />
-                      <Button
-                        label="Update"
-                        className="name-cancel"
-                        onClick={handleUpdate}
-                      />
-                    </div>
-                  </div>
-                )}
-                <div className="ep-about-sec-items">
-                  <span onClick={() => setShowName("relationship")}>
-                    Relationship Status
-                  </span>
-                </div>
-                {showName === "relationship" && (
-                  <div className="show-section-name">
-                    <div className="show-section-name-part-one">
-                      <Dropdown
-                        //   value={userData.relationShipStatus}
-                        onChange={(e) =>
-                          setSampleUserData({
-                            ...userData,
-                            relationShipStatus: e.value.name,
-                          })
-                        }
-                        options={statusOption}
-                        optionLabel="name"
-                        placeholder={
-                          sampleUserData?.relationShipStatus
-                            ? sampleUserData?.relationShipStatus
-                            : "Status"
-                        }
-                        className="bio-input"
-                      />
-                    </div>
-                    <div className="show-section-name-part-two">
-                      <Button
-                        label="cancel"
-                        className="name-cancel"
-                        onClick={handleCancel}
-                      />
-                      <Button
-                        label="Update"
-                        className="name-cancel"
-                        onClick={handleUpdate}
-                      />
-                    </div>
-                  </div>
-                )}
-                <div className="ep-about-sec-items">
-                  <span onClick={() => setShowName("school")}>School</span>
-                </div>
-                {showName === "school" && (
-                  <div className="show-section-name">
-                    <div className="show-section-name-part-one">
-                      <InputText
-                        placeholder="School"
-                        name="schoolName"
-                        value={schoolDetails.schoolName}
-                        onChange={handleSchoolInputChange}
-                      />
-
-                      <div className="year-container">
-                        <Calendar
-                          view="year"
-                          dateFormat="yy"
-                          className="year"
-                          placeholder="From"
-                          value={schoolDetails.from}
-                          onChange={(e) =>
-                            handleSchoolDateChange("from", e.value)
-                          }
-                        />
-                        <span> to</span>
-                        <Calendar
-                          view="year"
-                          dateFormat="yy"
-                          className="year"
-                          placeholder="To"
-                          value={schoolDetails.to}
-                          onChange={(e) =>
-                            handleSchoolDateChange("to", e.value)
-                          }
-                        />
-                      </div>
-                      <InputText
-                        placeholder="Description"
-                        className="school-description"
-                        name="education"
-                        value={schoolDetails.education}
-                        onChange={handleSchoolInputChange}
-                      />
-                    </div>
-                    <div className="show-section-name-part-two">
-                      <Button
-                        label="cancel"
-                        className="name-cancel"
-                        onClick={handleCancel}
-                      />
-                      <Button
-                        label="Update"
-                        className="name-cancel"
-                        onClick={handleUpdateSchool}
-                      />
-                    </div>
-                  </div>
-                )}
-                <div className="ep-about-sec-items">
-                  <span onClick={() => setShowName("college")}>College</span>
-                </div>
-                {showName === "college" && (
-                  <div className="show-section-name">
-                    <div className="show-section-name-part-one">
-                      <InputText
-                        placeholder="College"
-                        name="collegeName"
-                        value={collegeDetails.collegeName}
-                        onChange={handleCollegeInputChange}
-                      />
-
-                      <div className="year-container">
-                        <Calendar
-                          view="year"
-                          dateFormat="yy"
-                          className="year"
-                          placeholder="From"
-                          value={collegeDetails.from}
-                          onChange={(e) =>
-                            handleCollegeDateChange("from", e.value)
-                          }
-                        />
-                        <span> to</span>
-                        <Calendar
-                          view="year"
-                          dateFormat="yy"
-                          className="year"
-                          placeholder="To"
-                          value={collegeDetails.to}
-                          onChange={(e) =>
-                            handleCollegeDateChange("to", e.value)
-                          }
-                        />
-                      </div>
-                      <InputText
-                        placeholder="Degree"
-                        className="school-description"
-                        name="degree"
-                        value={collegeDetails.degree}
-                        onChange={handleCollegeInputChange}
-                      />
-                    </div>
-                    <div className="show-section-name-part-two">
-                      <Button
-                        label="cancel"
-                        className="name-cancel"
-                        onClick={handleCancel}
-                      />
-                      <Button
-                        label="Update"
-                        className="name-cancel"
-                        onClick={handleUpdateCollege}
-                      />
-                    </div>
-                  </div>
-                )}
-                <div className="ep-about-sec-items">
-                  <span onClick={() => setShowName("work")}>Work</span>
-                </div>
-                {showName === "work" && (
-                  <div className="show-section-name">
-                    <div className="show-section-name-part-one">
-                      <InputText
-                        placeholder="Company"
-                        name="companyName"
-                        value={workDetails.companyName}
-                        onChange={handleWorkInputChange}
-                      />
-
-                      <div className="year-container">
-                        <Calendar
-                          view="year"
-                          dateFormat="yy"
-                          className="year"
-                          placeholder="From"
-                          value={workDetails.from}
-                          onChange={(e) =>
-                            handleWorkDateChange("from", e.value)
-                          }
-                        />
-                        <span> to</span>
-                        <Calendar
-                          view="year"
-                          dateFormat="yy"
-                          className="year"
-                          placeholder="To"
-                          value={workDetails.To}
-                          onChange={(e) => handleWorkDateChange("to", e.value)}
-                        />
-                      </div>
-                      <InputText
-                        placeholder="Designation"
-                        className="school-description"
-                        name="designation"
-                        value={workDetails.designation}
-                        onChange={handleWorkInputChange}
-                      />
-                    </div>
-                    <div className="show-section-name-part-two">
-                      <Button
-                        label="cancel"
-                        className="name-cancel"
-                        onClick={handleCancel}
-                      />
-                      <Button
-                        label="Update"
-                        className="name-cancel"
-                        onClick={handleUpdateWork}
-                      />
-                    </div>
-                  </div>
-                )}
-                <div className="ep-about-sec-items">
-                  <span onClick={() => setShowName("gender")}>Gender</span>
-                </div>
-                {showName === "gender" && (
-                  <div className="show-section-name">
-                    <div className="show-section-name-part-one">
-                      <Dropdown
-                        //   value={userData.gender}
-                        onChange={(e) =>
-                          setSampleUserData({
-                            ...userData,
-                            gender: e.value.name,
-                          })
-                        }
-                        options={genderOption}
-                        optionLabel="name"
-                        placeholder={sampleUserData?.gender}
-                        className="bio-input"
-                      />
-                    </div>
-                    <div className="show-section-name-part-two">
-                      <Button
-                        label="cancel"
-                        className="name-cancel"
-                        onClick={handleCancel}
-                      />
-                      <Button
-                        label="Update"
-                        className="name-cancel"
-                        onClick={handleUpdate}
-                      />
-                    </div>
-                  </div>
-                )}
-                <div className="ep-about-sec-items">
-                  <span onClick={() => setShowName("birthday")}>Birthday</span>
-                </div>
-                {showName === "birthday" && (
-                  <div className="show-section-name">
-                    <div className="show-section-name-part-one">
-                      <Calendar
-                        dateFormat="dd/mm/yy"
-                        className="dob"
-                        placeholder={
-                          userData?.dob
-                            ? formatDate(userData?.dob)
-                            : "Date Of Birth"
-                        }
-                        value={userData?.dob || ""}
-                        onChange={(e) =>
-                          setSampleUserData({
-                            ...userData,
-                            dob: handleISTChange(e.value),
-                          })
-                        }
-                      />
-                    </div>
-                    <div className="show-section-name-part-two">
-                      <Button
-                        label="cancel"
-                        className="name-cancel"
-                        onClick={handleCancel}
-                      />
-                      <Button
-                        label="Update"
-                        className="name-cancel"
-                        onClick={handleUpdate}
-                      />
-                    </div>
-                  </div>
-                )}
-                <div className="ep-about-sec-items">
-                  <span onClick={() => setShowName("phone")}>Phone</span>
-                </div>
-                {showName === "phone" && (
-                  <div className="show-section-name">
-                    <div className="show-section-name-part-one">
-                      <InputText
-                        placeholder={
-                          userData?.phoneNumber
-                            ? userData?.phoneNumber
-                            : "Phone"
-                        }
-                        className="bio-input"
-                        keyfilter="int"
-                        maxLength={10}
-                        onChange={(e) =>
-                          setSampleUserData({
-                            ...userData,
-                            phoneNumber: e.target.value,
-                          })
-                        }
-                      />
-                    </div>
-                    <div className="show-section-name-part-two">
-                      <Button
-                        label="cancel"
-                        className="name-cancel"
-                        onClick={handleCancel}
-                      />
-                      <Button
-                        label="Update"
-                        className="name-cancel"
-                        onClick={handleUpdate}
-                      />
-                    </div>
-                  </div>
-                )}
+    <>
+      <Toast ref={toast} />
+      <div className="edit-profile-main">
+        {!isLoading ? (
+          <div className="edit-profile-container">
+            <Divider layout="vertical" type="solid" />
+            <div className="edit-profile-sec-one">
+              <div
+                className="ep-sec-one-containers"
+                onClick={() => setShowSection("about")}
+              >
+                About
               </div>
-            )}
+              <div
+                className="ep-sec-one-containers"
+                onClick={() => setShowSection("security")}
+              >
+                Security
+              </div>
+            </div>
+            <Divider layout="vertical" type="solid" />
+            <div className="edit-profile-sec-two">
+              {showSection === "about" && (
+                <div className="ep-about-sec">
+                  <div className="ep-about-sec-items">
+                    <span onClick={() => setShowName("name")}>Name</span>
+                  </div>
+                  {showName === "name" && (
+                    <div className="show-section-name">
+                      <div className="show-section-name-part-one">
+                        <InputText
+                          placeholder={
+                            userData?.firstName
+                              ? userData?.firstName
+                              : "First Name"
+                          }
+                          onChange={(e) =>
+                            setSampleUserData({
+                              ...userData,
+                              firstName: e.target.value,
+                            })
+                          }
+                        />
+                        <InputText
+                          placeholder={
+                            userData?.lastName
+                              ? userData?.lastName
+                              : "Last Name"
+                          }
+                          onChange={(e) =>
+                            setSampleUserData({
+                              ...userData,
+                              lastName: e.target.value,
+                            })
+                          }
+                        />
+                      </div>
+                      <div className="show-section-name-part-two">
+                        <Button
+                          label="cancel"
+                          className="name-cancel"
+                          onClick={handleCancel}
+                        />
+                        <Button
+                          label="Update"
+                          className="name-cancel"
+                          onClick={handleUpdate}
+                        />
+                      </div>
+                    </div>
+                  )}
+                  <div className="ep-about-sec-items">
+                    <span onClick={() => setShowName("bio")}>Bio</span>
+                  </div>
+                  {showName === "bio" && (
+                    <div className="show-section-name">
+                      <div className="show-section-name-part-one">
+                        <InputText
+                          placeholder={userData?.bio ? userData?.bio : "Bio"}
+                          className="bio-input"
+                          onChange={(e) =>
+                            setSampleUserData({
+                              ...userData,
+                              bio: e.target.value,
+                            })
+                          }
+                        />
+                      </div>
+                      <div className="show-section-name-part-two">
+                        <Button
+                          label="cancel"
+                          className="name-cancel"
+                          onClick={handleCancel}
+                        />
+                        <Button
+                          label="Update"
+                          className="name-cancel"
+                          onClick={handleUpdate}
+                        />
+                      </div>
+                    </div>
+                  )}
+                  <div className="ep-about-sec-items">
+                    <span onClick={() => setShowName("relationship")}>
+                      Relationship Status
+                    </span>
+                  </div>
+                  {showName === "relationship" && (
+                    <div className="show-section-name">
+                      <div className="show-section-name-part-one">
+                        <Dropdown
+                          //   value={userData.relationShipStatus}
+                          onChange={(e) =>
+                            setSampleUserData({
+                              ...userData,
+                              relationShipStatus: e.value.name,
+                            })
+                          }
+                          options={statusOption}
+                          optionLabel="name"
+                          placeholder={
+                            sampleUserData?.relationShipStatus
+                              ? sampleUserData?.relationShipStatus
+                              : "Status"
+                          }
+                          className="bio-input"
+                        />
+                      </div>
+                      <div className="show-section-name-part-two">
+                        <Button
+                          label="cancel"
+                          className="name-cancel"
+                          onClick={handleCancel}
+                        />
+                        <Button
+                          label="Update"
+                          className="name-cancel"
+                          onClick={handleUpdate}
+                        />
+                      </div>
+                    </div>
+                  )}
+                  <div className="ep-about-sec-items">
+                    <span onClick={() => setShowName("school")}>School</span>
+                  </div>
+                  {showName === "school" && (
+                    <div className="show-section-name">
+                      <div className="show-section-name-part-one">
+                        <InputText
+                          placeholder="School"
+                          name="schoolName"
+                          value={schoolDetails.schoolName}
+                          onChange={handleSchoolInputChange}
+                        />
+
+                        <div className="year-container">
+                          <Calendar
+                            view="year"
+                            dateFormat="yy"
+                            className="year"
+                            placeholder="From"
+                            value={schoolDetails.from}
+                            onChange={(e) =>
+                              handleSchoolDateChange("from", e.value)
+                            }
+                          />
+                          <span> to</span>
+                          <Calendar
+                            view="year"
+                            dateFormat="yy"
+                            className="year"
+                            placeholder="To"
+                            value={schoolDetails.to}
+                            onChange={(e) =>
+                              handleSchoolDateChange("to", e.value)
+                            }
+                          />
+                        </div>
+                        <InputText
+                          placeholder="Description"
+                          className="school-description"
+                          name="education"
+                          value={schoolDetails.education}
+                          onChange={handleSchoolInputChange}
+                        />
+                      </div>
+                      <div className="show-section-name-part-two">
+                        <Button
+                          label="cancel"
+                          className="name-cancel"
+                          onClick={handleCancel}
+                        />
+                        <Button
+                          label="Update"
+                          className="name-cancel"
+                          onClick={handleUpdateSchool}
+                        />
+                      </div>
+                    </div>
+                  )}
+                  <div className="ep-about-sec-items">
+                    <span onClick={() => setShowName("college")}>College</span>
+                  </div>
+                  {showName === "college" && (
+                    <div className="show-section-name">
+                      <div className="show-section-name-part-one">
+                        <InputText
+                          placeholder="College"
+                          name="collegeName"
+                          value={collegeDetails.collegeName}
+                          onChange={handleCollegeInputChange}
+                        />
+
+                        <div className="year-container">
+                          <Calendar
+                            view="year"
+                            dateFormat="yy"
+                            className="year"
+                            placeholder="From"
+                            value={collegeDetails.from}
+                            onChange={(e) =>
+                              handleCollegeDateChange("from", e.value)
+                            }
+                          />
+                          <span> to</span>
+                          <Calendar
+                            view="year"
+                            dateFormat="yy"
+                            className="year"
+                            placeholder="To"
+                            value={collegeDetails.to}
+                            onChange={(e) =>
+                              handleCollegeDateChange("to", e.value)
+                            }
+                          />
+                        </div>
+                        <InputText
+                          placeholder="Degree"
+                          className="school-description"
+                          name="degree"
+                          value={collegeDetails.degree}
+                          onChange={handleCollegeInputChange}
+                        />
+                      </div>
+                      <div className="show-section-name-part-two">
+                        <Button
+                          label="cancel"
+                          className="name-cancel"
+                          onClick={handleCancel}
+                        />
+                        <Button
+                          label="Update"
+                          className="name-cancel"
+                          onClick={handleUpdateCollege}
+                        />
+                      </div>
+                    </div>
+                  )}
+                  <div className="ep-about-sec-items">
+                    <span onClick={() => setShowName("work")}>Work</span>
+                  </div>
+                  {showName === "work" && (
+                    <div className="show-section-name">
+                      <div className="show-section-name-part-one">
+                        <InputText
+                          placeholder="Company"
+                          name="companyName"
+                          value={workDetails.companyName}
+                          onChange={handleWorkInputChange}
+                        />
+
+                        <div className="year-container">
+                          <Calendar
+                            view="year"
+                            dateFormat="yy"
+                            className="year"
+                            placeholder="From"
+                            value={workDetails.from}
+                            onChange={(e) =>
+                              handleWorkDateChange("from", e.value)
+                            }
+                          />
+                          <span> to</span>
+                          <Calendar
+                            view="year"
+                            dateFormat="yy"
+                            className="year"
+                            placeholder="To"
+                            value={workDetails.To}
+                            onChange={(e) =>
+                              handleWorkDateChange("to", e.value)
+                            }
+                          />
+                        </div>
+                        <InputText
+                          placeholder="Designation"
+                          className="school-description"
+                          name="designation"
+                          value={workDetails.designation}
+                          onChange={handleWorkInputChange}
+                        />
+                      </div>
+                      <div className="show-section-name-part-two">
+                        <Button
+                          label="cancel"
+                          className="name-cancel"
+                          onClick={handleCancel}
+                        />
+                        <Button
+                          label="Update"
+                          className="name-cancel"
+                          onClick={handleUpdateWork}
+                        />
+                      </div>
+                    </div>
+                  )}
+                  <div className="ep-about-sec-items">
+                    <span onClick={() => setShowName("gender")}>Gender</span>
+                  </div>
+                  {showName === "gender" && (
+                    <div className="show-section-name">
+                      <div className="show-section-name-part-one">
+                        <Dropdown
+                          //   value={userData.gender}
+                          onChange={(e) =>
+                            setSampleUserData({
+                              ...userData,
+                              gender: e.value.name,
+                            })
+                          }
+                          options={genderOption}
+                          optionLabel="name"
+                          placeholder={sampleUserData?.gender}
+                          className="bio-input"
+                        />
+                      </div>
+                      <div className="show-section-name-part-two">
+                        <Button
+                          label="cancel"
+                          className="name-cancel"
+                          onClick={handleCancel}
+                        />
+                        <Button
+                          label="Update"
+                          className="name-cancel"
+                          onClick={handleUpdate}
+                        />
+                      </div>
+                    </div>
+                  )}
+                  <div className="ep-about-sec-items">
+                    <span onClick={() => setShowName("birthday")}>
+                      Birthday
+                    </span>
+                  </div>
+                  {showName === "birthday" && (
+                    <div className="show-section-name">
+                      <div className="show-section-name-part-one">
+                        <Calendar
+                          dateFormat="dd/mm/yy"
+                          className="dob"
+                          placeholder={
+                            userData?.dob
+                              ? formatDate(userData?.dob)
+                              : "Date Of Birth"
+                          }
+                          value={userData?.dob || ""}
+                          onChange={(e) =>
+                            setSampleUserData({
+                              ...userData,
+                              dob: handleISTChange(e.value),
+                            })
+                          }
+                        />
+                      </div>
+                      <div className="show-section-name-part-two">
+                        <Button
+                          label="cancel"
+                          className="name-cancel"
+                          onClick={handleCancel}
+                        />
+                        <Button
+                          label="Update"
+                          className="name-cancel"
+                          onClick={handleUpdate}
+                        />
+                      </div>
+                    </div>
+                  )}
+                  <div className="ep-about-sec-items">
+                    <span onClick={() => setShowName("phone")}>Phone</span>
+                  </div>
+                  {showName === "phone" && (
+                    <div className="show-section-name">
+                      <div className="show-section-name-part-one">
+                        <InputText
+                          placeholder={
+                            userData?.phoneNumber
+                              ? userData?.phoneNumber
+                              : "Phone"
+                          }
+                          className="bio-input"
+                          keyfilter="int"
+                          maxLength={10}
+                          onChange={(e) =>
+                            setSampleUserData({
+                              ...userData,
+                              phoneNumber: e.target.value,
+                            })
+                          }
+                        />
+                      </div>
+                      <div className="show-section-name-part-two">
+                        <Button
+                          label="cancel"
+                          className="name-cancel"
+                          onClick={handleCancel}
+                        />
+                        <Button
+                          label="Update"
+                          className="name-cancel"
+                          onClick={handleUpdate}
+                        />
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+            <Divider layout="vertical" type="solid" />
           </div>
-          <Divider layout="vertical" type="solid" />
-        </div>
-      ) : (
-        <div className="loading-animation">
-          <Lottie animationData={Loading} className="loading-animation" />
-        </div>
-      )}
-    </div>
+        ) : (
+          <div className="loading-animation">
+            <Lottie animationData={Loading} className="loading-animation" />
+          </div>
+        )}
+      </div>
+    </>
   );
 }

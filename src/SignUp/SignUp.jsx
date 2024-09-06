@@ -30,7 +30,7 @@ export default function SignUp() {
     { name: "Female", code: "Female" },
   ];
 
-  console.log(dob);
+  console.log(gender);
 
   const SignUp = async () => {
     try {
@@ -106,6 +106,15 @@ export default function SignUp() {
     }
   };
 
+  const handleISTChange = (date) => {
+    const utcDate = new Date(date);
+
+    const istOffset = 5.5 * 60 * 60 * 1000;
+    const istDate = new Date(utcDate.getTime() + istOffset);
+
+    return istDate;
+  };
+
   return (
     <div className="sign-up-main">
       <Toast ref={toast} />
@@ -153,14 +162,14 @@ export default function SignUp() {
                 dateFormat="dd/mm/yy"
                 placeholder="Date of birth"
                 value={dob}
-                onChange={(e) => setDob(e.target.value)}
+                onChange={(e) => setDob(handleISTChange(e.target.value))}
               />
               <Dropdown
                 value={gender}
                 onChange={(e) => setGender(e.value.name)}
                 options={genderOption}
                 optionLabel="name"
-                placeholder="Select gender"
+                placeholder={gender ? gender : "select gender"}
               />
             </div>
             <div className="single-content">

@@ -31,35 +31,6 @@ export default function Profile() {
   const { refresh, setRefresh } = useUserContext();
   const navigate = useNavigate();
 
-  const [textValue, setTextValue] = useState("");
-  
-
-  // const [selectedFile, setSelectedFile] = useState(null);
-  // const [imagePreview, setImagePreview] = useState(null);
-  const toast = useRef(null);
-
-  console.log(textValue);
-
-  // const handleFileChange = (e) => {
-  //   const file = e.target.files[0];
-  //   if (file) {
-  //     setSelectedFile(URL.createObjectURL(file));
-  //   }
-  // };
-
-  // const handleFileChange = (e) => {
-  //   const file = e.target.files[0];
-  //   if (file) {
-  //     setSelectedFile(file);
-  //     setImagePreview(URL.createObjectURL(file));
-  //   }
-  // };
-
-  // const handleTextChange = (e) => {
-  //   setTextValue(e.htmlValue);
-  //   // console.log("Editor content:", e.htmlValue);
-  //   console.log(textValue, "value");
-  // };
 
   const [showAbout, setShowAbout] = useState("status");
 
@@ -77,7 +48,6 @@ export default function Profile() {
 
   const fileInputRef = useRef(null);
   const coverInputRef = useRef(null);
-  const postPicRef = useRef(null);
   const profileData = new FormData();
   const CoverData = new FormData();
 
@@ -89,48 +59,7 @@ export default function Profile() {
     coverInputRef.current.click();
   };
 
-  const handlePostImgClick = () => {
-    postPicRef.current.click();
-  };
 
-  // const addPostForm = new FormData();
-
-  // const handleAddPost = () => {
-  //   addPostForm.append("email", email);
-
-  //   if (textValue) {
-  //     addPostForm.append("content", textValue);
-  //   }
-
-  //   if (selectedFile) {
-  //     addPostForm.append("postImage", selectedFile);
-  //   }
-
-  //   console.log(selectedFile);
-  //   console.log(textValue);
-
-  //   axios
-  //     .post(`http://localhost:8080/user/add-post`, addPostForm, {
-  //       headers: {
-  //         Authorization: `Bearer ${Bearer}`,
-  //       },
-  //     })
-  //     .then((response) => {
-  //       toast.current.show({
-  //         severity: "success",
-  //         summary: "Success",
-  //         detail: "Posted Successfully",
-  //       });
-  //       console.log(response);
-  //       setTimeout(() => {
-  //         SetShowAddPost(false);
-  //         setSelectedFile(null);
-  //         setImagePreview(null);
-  //         setTextValue("");
-  //       }, 2000);
-  //     })
-  //     .catch((error) => console.error(error));
-  // };
 
   const handleProfileChange = async (e) => {
     const profile = e.target.files[0];
@@ -206,7 +135,7 @@ export default function Profile() {
 
   return (
     <>
-      <Toast ref={toast} />
+      {/* <Toast ref={toast} /> */}
       <div className="profile-main">
         <div className="profile-container">
           <div className="cover-pic-container">
@@ -264,7 +193,7 @@ export default function Profile() {
             </div>
             <div className="profile-edit-setion">
               <div className="add-post" onClick={() => SetShowAddPost(true)}>
-                Add post<i className="pi pi-plus"></i>
+                Add Post<i className="pi pi-plus"></i>
               </div>
               <div
                 className="edit-profile"

@@ -14,7 +14,7 @@ api.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    if (error.response.status === 401 || error.response.status === 403) {
+    if (error.response.status === 401 || error.response.status === 403 || error.response.status === 500) {
       if (!originalRequest._retry) {
         originalRequest._retry = true;
         try {
@@ -31,7 +31,7 @@ api.interceptors.response.use(
             const newAccessToken = response.data.accessToken;
             const newRefreshToken = response.data.refreshToken;
 
-            console.log("Refresh token response data:", response.data);
+            // console.log("Refresh token response data:", response.data);
 
             Cookies.set("access_Token", newAccessToken);
             Cookies.set("refresh_Token", newRefreshToken);

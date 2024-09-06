@@ -1,0 +1,114 @@
+.comments-dialoge {
+  // height: 80vh;
+  min-height: 40vh;
+  max-height: 80vh;
+
+  .p-dialog-content{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 0 1.5rem .5rem 1.5rem;
+  }
+  
+  .comment-sec-header {
+    // height: 100px;
+    padding: 0.5rem 1rem;
+    // background-color: aqua;
+    display: flex;
+    gap: 20px;
+    border-bottom: 1px solid lightgray;
+
+    .content-sec-header-profile {
+      height: 60px;
+      width: 60px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      img {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+        background-position: center;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+      }
+    }
+    .comment-sec-header-about {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 3px;
+      .person-name {
+        font-size: 16px;
+        font-weight: 700;
+      }
+      .post-date {
+        font-size: 14px;
+        font-weight: 600;
+      }
+    }
+  }
+
+  .comments-dialoge-body{
+    // background-color: aqua;
+    padding: 0rem 1.5rem;
+
+    .comments-post-content{
+
+    }
+    .comments-post-image{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: .5rem 0rem;
+        height: 350px;
+        width: 500px;
+        // background-color: aquamarine;
+        margin: auto;
+
+        img{
+            height: inherit;
+            width: inherit;
+            object-fit: contain;
+        }
+
+    }
+  }
+
+  .content-sec-footer{
+    min-height: 100px;
+    width: 100%;
+    // background-color: aqua;
+    padding: .5rem 1rem;
+    display: flex;
+    
+
+    .footer-section{
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.05);
+        height: 100%;
+        border-radius: 10px;
+
+        .comments-input-field{
+            width: 100%;
+            min-height: 50%;
+            height: auto;
+            text-wrap: wrap;
+            border: none;
+            box-shadow: none;
+            background-color: transparent;
+            overflow-y: scroll;
+            scrollbar-width: none;
+            // background-color: aqua;
+
+        }
+
+        .post-button{
+            display: flex;
+            justify-content: end;
+            padding:  .5rem 1rem;
+        }
+    }
+  }
+}
