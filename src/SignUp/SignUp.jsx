@@ -50,6 +50,7 @@ export default function SignUp() {
       document.cookie = `refresh_Token=${response.data.refreshToken}`;
       document.cookie = `person=${response.data.person}`;
       localStorage.setItem('userEmail', response.data.person.email);
+      localStorage.setItem('userId', response.data.person.personId);
       localStorage.setItem('profile', response.data.person?.profileImg);
 
       console.log(response.data);

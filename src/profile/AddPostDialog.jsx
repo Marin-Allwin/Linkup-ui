@@ -191,7 +191,7 @@ const AddPostDialog = () => {
 
     if (emojiObject) {
       setTextValue((prevValue) => prevValue + emojiObject.emoji); 
-      setVisibleEmojiPicker(false); 
+      // setVisibleEmojiPicker(false); 
     } else {
       console.error("Emoji is undefined or incorrect property.");
     }

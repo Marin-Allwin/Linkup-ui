@@ -13,6 +13,7 @@ export default function ViewPeople() {
   const location = useLocation();
   const { firstNameLastName } = useParams();
   const email = location.state?.email;
+  const personId = location.state?.personId;
   const Bearer = Cookies.get("access_Token");
   const [personData, setPersonData] = useState();
   const [tabName, SetTabName] = useState("about");
@@ -30,7 +31,7 @@ export default function ViewPeople() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8080/user/get-person?email=${email}`, {
+      .get(`http://localhost:8080/user/get-person?personId=${personId}`, {
         headers: {
           Authorization: `Bearer ${Bearer}`,
         },

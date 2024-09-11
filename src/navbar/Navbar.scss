@@ -55,6 +55,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        cursor: pointer;
 
         i {
           font-size: 25px;
@@ -103,6 +104,7 @@
 
         .nav-sec-three-icons {
           font-size: 25px;
+          cursor: pointer;
         }
 
         .nav-profile{
@@ -110,6 +112,7 @@
             height: 40px;
             width: 40px;
             border-radius: 50%;
+            cursor: pointer;
 
             .profile-pic-nav{
               object-fit: cover;

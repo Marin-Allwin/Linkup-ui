@@ -39,7 +39,8 @@ export default function LoginPage() {
       Cookies.set('access_Token', response.data.accessToken);
       Cookies.set('refresh_Token', response.data.refreshToken);
       localStorage.setItem('userEmail', response.data.person.email);
-      localStorage.setItem('profile', response.data.person?.profileImg);
+      localStorage.setItem('personId', response.data.person.personId);
+      // localStorage.setItem('profile', response.data.person?.profileImg);
       // console.log(response.data);
       
       setTimeout(() => {

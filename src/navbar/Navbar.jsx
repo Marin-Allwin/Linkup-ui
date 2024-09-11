@@ -35,9 +35,7 @@ export default function Navbar() {
     setBellNotification,
   } = useUserContext();
   const location = useLocation();
-  console.log(landingPageNotification);
 
-  console.log(refresh);
   const menuRight = useRef(null);
   const items = [
     {
@@ -61,6 +59,7 @@ export default function Navbar() {
   };
 
   const email = localStorage.getItem("userEmail");
+  const personId = localStorage.getItem("personId");
 
   useEffect(() => {
     if (isConnected == true) {
@@ -99,7 +98,7 @@ export default function Navbar() {
 
   useEffect(() => {
     api
-      .get(`/user/get-person?email=${email}`, {
+      .get(`/user/get-person?personId=${personId}`, {
         headers: {
           Authorization: `Bearer ${Bearer}`,
         },
@@ -113,7 +112,6 @@ export default function Navbar() {
   }, [refresh]);
 
   const handleLogOut = () => {
-    console.log("logout");
     api
       .post(
         `/user/logout?email=${email}`,

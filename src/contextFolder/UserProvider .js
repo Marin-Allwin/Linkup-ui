@@ -15,7 +15,7 @@ export const UserProvider = ({ children }) => {
   const [landingPageNotification, setLandingPageNotification] = useState();
   const [peopleNotificatoin, setPeopleNotification] = useState();
   const [bellNotification, setBellNotification] = useState()
-  const [allPost, setAllPost] = useState();
+  const [allPost, setAllPost] = useState([]);
   const email = localStorage.getItem("userEmail");
   const Bearer = Cookies.get("access_Token");
 
@@ -33,19 +33,6 @@ export const UserProvider = ({ children }) => {
         console.log("Connected to WebSocket");
         setIsConnected(true);
 
-        // client.subscribe("/public/notifications", (message) => {
-        //   console.log("Received notification: " + message.body);
-        // });
-
-        // client.subscribe(`/user/${email}/queue/notifications`, (message) => {
-        //   try {
-        //     const notification = JSON.parse(message.body);
-        //     alert(notification.message);
-        //     console.log("Received private notification:", notification);
-        //   } catch (e) {
-        //     console.error("Failed to parse notification message:", e);
-        //   }
-        // });
       },
       onStompError: (frame) => {
         console.error("Broker error:", frame.headers["message"]);

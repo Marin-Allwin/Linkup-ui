@@ -80,12 +80,13 @@
           display: flex;
           flex-direction: column;
           padding-left: 35%;
-          padding-top: .5rem;
-          padding-bottom: .5rem;
+          padding-top: 0.5rem;
+          padding-bottom: 0.5rem;
           font-weight: 500;
+          cursor: pointer;
         }
-        
-        .container-one-sec-three-items:hover{
+
+        .container-one-sec-three-items:hover {
           background-color: lightgray;
           border-radius: 5px;
         }
@@ -192,6 +193,10 @@
 
           .landing-post-content {
             padding: 0rem 2rem;
+
+            .empty-content {
+              display: none;
+            }
           }
 
           .landing-post-image {
@@ -253,16 +258,23 @@
         }
       }
     }
+
+    .spinner-landing-page {
+      margin-top: 9vh;
+      justify-content: center;
+      align-items: center;
+      height: 40vh;
+      width: 100%;
+      // color: blue($color: #000000);
+    }
   }
 
   .landig-page-container-three {
     width: 20%;
-    // max-height: 92vh;
     height: max-content;
     max-height: 92vh;
     position: sticky;
     top: 8vh;
-    // background-color: aqua;
     padding: 1rem 2.5rem;
 
     .landig-page-container-three-main {
@@ -270,6 +282,47 @@
       box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
       border-radius: 10px;
       padding: 1rem 1rem;
+
+      // .container-three-content-container {
+      //   .container-three-content-items {
+      //     font-size: 14px;
+      //     font-weight: 500;
+      //     padding-left: 35%;
+      //     padding-top: 0.5rem;
+      //     padding-bottom: 0.5rem;
+      //     cursor: pointer;
+      //   }
+      //   .container-three-content-items:hover {
+      //     background-color: lightgray;
+      //     border-radius: 5px;
+      //   }
+      // }
+
+      .accordian {
+        .accordian-tab {
+          .p-accordion-header-text {
+            font-size: 14px;
+          }
+          .p-accordion-header-link {
+            padding-left: 35%;
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+            background-color: white;
+            border: none;
+          }
+          .p-accordion-header-link:hover {
+            background-color: lightgray;
+            border-radius: 5px;
+          }
+          .p-accordion-toggle-icon {
+            display: none !important;
+          }
+          .p-accordion-content{
+            border: none;
+            font-size: 14px;
+          }
+        }
+      }
     }
   }
 }

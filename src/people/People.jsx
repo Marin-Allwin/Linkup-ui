@@ -181,7 +181,7 @@ export default function People() {
 
   const handleProfileClick = (person) => {
     navigate(`/people/${person.firstName}-${person.lastName}`, {
-      state: { email: person.email },
+      state: { personId: person.personId },
     });
   };
 
