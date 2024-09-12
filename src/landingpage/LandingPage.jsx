@@ -25,26 +25,30 @@ import Lottie from "lottie-react";
 import Loading2 from "../animations/Loading2.json";
 import { Accordion, AccordionTab } from "primereact/accordion";
 import { Button } from "primereact/button";
+import { useNavigate } from "react-router-dom";
 
 export default function LandingPage() {
   const [commetShown, setCommentShown] = useState();
+  const email = localStorage.getItem("userEmail");
+  const personId = localStorage.getItem("personId");
   const Bearer = Cookies.get("access_Token");
   const ref_token = Cookies.get("refresh_Token");
   const [showSpinner, setShowSpinner] = useState(false);
-  const [activeIndex, setActiveIndex] = useState();
+  // const [activeIndex, setActiveIndex] = useState();
+  const [friends, setfriends] = useState([]);
+  const [suggessions, setSuggessions] = useState([]);
+  const navigate = useNavigate();
 
   const {
     userData,
     setUserData,
     SetShowAddPost,
-    landingPageNotification,
-    setLandingPageNotification,
     stompClient,
     isConnected,
     setShowComments,
-    showComments,
     allPost,
     setAllPost,
+    setTabMenu,
   } = useUserContext();
 
   console.log(userData?.saved);
@@ -98,6 +102,37 @@ export default function LandingPage() {
         setAllPost(response.data);
       })
       .catch((error) => console.log(error));
+  }, []);
+
+  useEffect(() => {
+    api
+      .get(`/user/get-few-friends?personId=${personId}`, {
+        headers: {
+          Authorization: `Bearer ${Bearer}`,
+        },
+      })
+      .then((response) => {
+        setfriends(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+  useEffect(() => {
+    api
+      .get(`/user/get-suggession/${personId}`, {
+        headers: {
+          Authorization: `Bearer ${Bearer}`,
+        },
+      })
+      .then((response) => {
+        setSuggessions(response.data);
+        console.log("this is suggessions", response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
 
   function showDate(dateStr) {
@@ -276,12 +311,22 @@ export default function LandingPage() {
             <Divider />
 
             <div className="container-one-sec-three">
-              <div className="container-one-sec-three-items">New post</div>
+              <div
+                className="container-one-sec-three-items"
+                onClick={() => SetShowAddPost(true)}
+              >
+                New post
+              </div>
               <div className="container-one-sec-three-items">My groups</div>
               <div className="container-one-sec-three-items">My Learnings</div>
               <div className="container-one-sec-three-items">My chat</div>
               <div className="container-one-sec-three-items">Events</div>
-              <div className="container-one-sec-three-items">Edit profile</div>
+              <div
+                className="container-one-sec-three-items"
+                onClick={() => navigate("/edit-profile")}
+              >
+                Edit profile
+              </div>
             </div>
           </div>
         </div>
@@ -464,14 +509,109 @@ export default function LandingPage() {
 
             <Accordion multiple activeIndex={[0]} className="accordian">
               <AccordionTab header="My Friends" className="accordian-tab">
-                <div className="container-three-content-items">My Friends</div>
+                <div className="container-three-content-items">
+                  {friends.length > 0 ? (
+                    <div className="accordian-friends">
+                      {friends.map((f) => (
+                        <>
+                          <div
+                            className="accordian-person-each"
+                            onClick={() =>
+                              navigate(`/${f.firstName}-${f.lastName}`, {
+                                state: { personId: f?.personId },
+                              })
+                            }
+                          >
+                            <div className="accordian-person-image">
+                              <img
+                                src={
+                                  f?.profile
+                                    ? `data:image/jpeg;base64,${f?.profile}`
+                                    : logo
+                                }
+                                alt=""
+                              />
+                            </div>
+                            <div className="accordian-person-about">
+                              <div className="accordian-person-name">
+                                {f?.firstName + " " + f?.lastName}
+                              </div>
+                              <div className="accordian-person-bio">
+                                {f?.bio}
+                              </div>
+                            </div>
+                          </div>
+                          <Divider />
+                        </>
+                      ))}
+                      {friends.length > 1 && (
+                        <div
+                          className="view-all-friends"
+                          onClick={() => {
+                            navigate("/people");
+                            setTabMenu("myfriends");
+                          }}
+                        >
+                          view all
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <div>no friends</div>
+                  )}
+                </div>
               </AccordionTab>
               <AccordionTab header="Suggssions" className="accordian-tab">
-                <div className="container-three-content-items">Suggssions</div>
+                <div className="container-three-content-items">
+                  {suggessions.length > 0 ? (
+                    <div className="accordian-suggessions">
+                      {suggessions.map((s) => (
+                        <>
+                          <div
+                            className="accordian-suggessions-each"
+                            onClick={() =>
+                              navigate(`/${s.firstName}-${s.lastName}`, {
+                                state: { personId: s?.personId },
+                              })
+                            }
+                          >
+                            <div className="accordian-suggessions-image">
+                              <img
+                                src={
+                                  s?.profile
+                                    ? `data:image/jpeg;base64,${s?.profile}`
+                                    : logo
+                                }
+                                alt=""
+                              />
+                            </div>
+                            <div className="accordian-suggessions-about">
+                              <div className="accordian-suggessions-name">
+                                {s?.firstName + " " + s?.lastName}
+                              </div>
+                              <div className="accordian-suggessions-bio">
+                                {s?.bio}
+                              </div>
+                            </div>
+                          </div>
+                          <Divider />
+                        </>
+                      ))}
+                      {friends.length > 1 && (
+                        <div className="view-all-suggessions" onClick={() => {
+                          navigate("/people");
+                          setTabMenu("find");
+                        }}>view all</div>
+                      )}
+                    </div>
+                  ) : (
+                    <div>no suggessions</div>
+                  )}
+                </div>
               </AccordionTab>
               <AccordionTab header="Recently saved" className="accordian-tab">
                 <div className="container-three-content-items">
-                  Recently saved
+                  No saved items
                 </div>
               </AccordionTab>
             </Accordion>

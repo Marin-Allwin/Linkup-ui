@@ -44,7 +44,8 @@ function AppContent() {
         <Route path="/edit-profile" element={<EditProfile />}></Route>
         <Route path="/people" element={<People />}></Route>
         <Route path="/newPost" element={<AddPost />}></Route>
-        <Route path="/people/:firstNameLastName" element={<ViewPeople />} />
+        {/* <Route path="/people/:firstNameLastName" element={<ViewPeople />} /> */}
+        <Route path="/:firstNameLastName" element={<ViewPeople />} />
         <Route path="/chat" element={<Chat />} />
       </Routes>
     </div>

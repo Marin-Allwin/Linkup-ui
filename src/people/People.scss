@@ -5,8 +5,11 @@
   padding-top: 8vh;
 
   .people-container-overall {
-    width: 50%;
-    padding: 3rem 4rem;
+    width: 35%;
+    padding: 3rem 0rem;
+    height: 92vh;
+    overflow: auto;
+    scrollbar-width: none;
     .p-tabmenu .p-tabmenu-nav .p-tabmenuitem.p-highlight .p-menuitem-link {
       color: #0866ff;
       border-color: #0866ff;
@@ -14,6 +17,9 @@
 
     .my-friends-container {
       padding: 1rem 0rem;
+      .p-divider-horizontal {
+        margin: 0.5rem;
+      }
 
       .friends-container {
         padding: 0.5rem 0rem;
@@ -24,23 +30,22 @@
           display: flex;
           justify-content: center;
           align-items: center;
-          height: 100px;
+          height: 70px;
 
           .friends-img {
             flex: 1;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100px;
+            height: 70px;
 
-            .friends-profile{
+            .friends-profile {
               height: 100%;
-              width: 45%;
+              width: 44%;
               border-radius: 50%;
               object-fit: cover;
               background-position: center;
               box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
-
             }
           }
         }
@@ -53,13 +58,12 @@
 
           .friends-people-name {
             padding: 0.2rem 0rem;
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 500;
-
           }
           .friends-people-bio {
             padding: 0rem 0rem;
-
+            font-size: 16px;
           }
         }
 
@@ -71,7 +75,7 @@
         }
       }
 
-      .no-friends{
+      .no-friends {
         color: gray;
         padding: 2rem 2rem;
       }
@@ -103,7 +107,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100px;
+            height: 70px;
 
             .find-people-profile {
               height: 100%;
@@ -126,7 +130,6 @@
             padding: 0.2rem 0rem;
             font-size: 20px;
             font-weight: 500;
-            // background-color: aqua;
           }
 
           .find-people-bio {
@@ -147,7 +150,7 @@
         }
       }
 
-      .no-request{
+      .no-request {
         // font-size: 20px;
         color: gray;
         padding: 2rem 2rem;
@@ -156,6 +159,9 @@
 
     .find-container {
       padding: 1rem 0rem;
+      .p-divider-horizontal {
+        margin: 0.5rem;
+      }
       .find-people {
         padding: 0.5rem 0rem;
         display: flex;
@@ -165,11 +171,11 @@
           display: flex;
           justify-content: center;
           align-items: center;
-          height: 100px;
+          height: 70px;
 
           .find-people-profile {
             height: 100%;
-            width: 45%;
+            width: 40%;
             border-radius: 50%;
             object-fit: cover;
             background-position: center;
@@ -184,12 +190,13 @@
 
           .find-people-name {
             padding: 0.2rem 0rem;
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 500;
           }
 
           .find-people-bio {
             padding: 0rem 0rem;
+            font-size: 16px;
           }
         }
         .find-people-action {
@@ -201,7 +208,8 @@
             box-shadow: none;
             border: none;
             background-color: #0866ff;
-            width: 60%;
+            width: 70%;
+            font-size: 14px;
           }
 
           .cancel-send {

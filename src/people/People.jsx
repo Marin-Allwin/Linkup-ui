@@ -14,7 +14,6 @@ import SockJS from "sockjs-client";
 import WebSocketComponent from "../websocket/WebSocketComponent";
 
 export default function People() {
-  const [tabMenu, setTabMenu] = useState("requests");
   const [findFriends, setFindFriends] = useState([]);
   const [requests, setRequests] = useState([]);
   const [myFriends, setMyFriends] = useState([]);
@@ -23,12 +22,9 @@ export default function People() {
   const [fetchData, setFetchData] = useState(true);
 
   const {
-    userData,
-    setUserData,
     isConnected,
-    stompClient,
-    peopleNotificatoin,
-    setPeopleNotification,
+    tabMenu,
+    setTabMenu,
   } = useUserContext();
 
   console.log(isConnected);
@@ -59,6 +55,19 @@ export default function People() {
       },
     },
   ];
+
+  const getActiveIndex = () => {
+    switch (tabMenu) {
+      case "requests":
+        return 0;
+      case "find":
+        return 1;
+      case "myfriends":
+        return 2;
+      default:
+        return 0;  
+    }
+  };
 
   useEffect(() => {
     api
@@ -180,7 +189,7 @@ export default function People() {
   };
 
   const handleProfileClick = (person) => {
-    navigate(`/people/${person.firstName}-${person.lastName}`, {
+    navigate(`/${person.firstName}-${person.lastName}`, {
       state: { personId: person.personId },
     });
   };
@@ -188,17 +197,15 @@ export default function People() {
   return (
     <>
       <div className="people-main">
+        <Divider layout="vertical" />
         <div className="people-container-overall">
-          <TabMenu model={items} />
-
+          <TabMenu model={items}  activeIndex={getActiveIndex()}/>
 
           {tabMenu === "requests" && (
             <div className="people-container">
               {requests && requests.length > 0 ? (
                 requests.map((person) => (
                   <div key={person.email}>
-                    {" "}
-                    {/* Add a unique key for each item */}
                     <div className="request-container">
                       <div className="request-container-part-one">
                         <div className="request-img">
@@ -259,6 +266,7 @@ export default function People() {
                           <img
                             src={`${`data:image/jpeg;base64,${person?.profile}`}`}
                             className="find-people-profile"
+                            alt="\"
                           />
                         ) : (
                           <img src={profile} className="find-people-profile" />
@@ -297,7 +305,7 @@ export default function People() {
           )}
           {tabMenu === "myfriends" && (
             <div className="my-friends-container">
-              {myFriends.length > 0 ?
+              {myFriends.length > 0 ? (
                 myFriends?.map((friend) => (
                   <>
                     <div className="friends-container">
@@ -307,6 +315,7 @@ export default function People() {
                             <img
                               src={`${`data:image/jpeg;base64,${friend?.profile}`}`}
                               className="friends-profile"
+                              alt=""
                             />
                           ) : (
                             <img src={profile} className="friends-profile" />
@@ -323,10 +332,14 @@ export default function People() {
                     </div>
                     <Divider />
                   </>
-                )) : <div className="no-friends">Let's find some friends</div>}
+                ))
+              ) : (
+                <div className="no-friends">Let's find some friends</div>
+              )}
             </div>
           )}
         </div>
+        <Divider layout="vertical" style={{ height: "100%" }} />
       </div>
       <Outlet />
     </>

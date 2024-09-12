@@ -12,10 +12,11 @@ export const UserProvider = ({ children }) => {
   const [showComments, setShowComments] = useState(false);
   const [stompClient, setStompClient] = useState(null);
   const [isConnected, setIsConnected] = useState(false);
-  const [landingPageNotification, setLandingPageNotification] = useState();
-  const [peopleNotificatoin, setPeopleNotification] = useState();
-  const [bellNotification, setBellNotification] = useState()
+  const [landingPageNotification, setLandingPageNotification] = useState(0);
+  const [peopleNotificatoin, setPeopleNotification] = useState(0);
+  const [bellNotification, setBellNotification] = useState();
   const [allPost, setAllPost] = useState([]);
+  const [tabMenu, setTabMenu] = useState("requests");
   const email = localStorage.getItem("userEmail");
   const Bearer = Cookies.get("access_Token");
 
@@ -32,7 +33,6 @@ export const UserProvider = ({ children }) => {
       onConnect: () => {
         console.log("Connected to WebSocket");
         setIsConnected(true);
-
       },
       onStompError: (frame) => {
         console.error("Broker error:", frame.headers["message"]);
@@ -119,7 +119,9 @@ export const UserProvider = ({ children }) => {
         allPost,
         setAllPost,
         bellNotification,
-        setBellNotification
+        setBellNotification,
+        tabMenu,
+        setTabMenu,
       }}
     >
       {children}

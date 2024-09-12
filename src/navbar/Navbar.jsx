@@ -61,40 +61,129 @@ export default function Navbar() {
   const email = localStorage.getItem("userEmail");
   const personId = localStorage.getItem("personId");
 
+  // useEffect(() => {
+  //   if (isConnected == true) {
+  //     stompClient.subscribe(`/user/${email}/queue/notifications`, (message) => {
+  //       try {
+  //         const notification = JSON.parse(message.body);
+  //         console.log("Received private notification:", notification);
+  //         setPeopleNotification((x) => x + 1);
+  //         console.log(peopleNotificatoin);
+  //       } catch (e) {
+  //         console.error("Failed to parse notification message:", e);
+  //       }
+  //     });
+
+  //     stompClient.subscribe("/public/posts", (message) => {
+  //       const newPost = JSON.parse(message.body);
+  //       setAllPost((prevPosts) => [newPost, ...prevPosts]);
+  //       setLandingPageNotification((x) => x + 1);
+  //       console.log(
+  //         "this is landing page notification",
+  //         landingPageNotification
+  //       );
+  //     });
+
+  //     stompClient.subscribe(
+  //       `/user/${email}/queue/acceptNotification`,
+  //       (message) => {
+  //         try {
+  //           const notification = JSON.parse(message.body);
+  //           console.log("Received private notification:", notification);
+  //           bellNotification((x) => x + 1);
+  //         } catch (e) {
+  //           console.error("Failed to parse notification message:", e);
+  //         }
+  //       }
+  //     );
+  //   }
+  // }, [stompClient, isConnected]);
+
+  // useEffect(() => {
+  //   if (isConnected) {
+  //     // Subscribe to WebSocket topics
+  //     const privateNotificationSubscription = stompClient.subscribe(
+  //       `/user/${email}/queue/notifications`,
+  //       (message) => {
+  //         try {
+  //           const notification = JSON.parse(message.body);
+  //           console.log("Received private notification:", notification);
+  //           setPeopleNotification((x) => x + 1);
+  //         } catch (e) {
+  //           console.error("Failed to parse notification message:", e);
+  //         }
+  //       }
+  //     );
+
+  //     const publicPostSubscription = stompClient.subscribe(
+  //       "/public/posts",
+  //       (message) => {
+  //         const newPost = JSON.parse(message.body);
+  //         setAllPost((prevPosts) => [newPost, ...prevPosts]);
+  //         setLandingPageNotification((x) => x + 1);
+  //       }
+  //     );
+
+  //     const acceptNotificationSubscription = stompClient.subscribe(
+  //       `/user/${email}/queue/acceptNotification`,
+  //       (message) => {
+  //         try {
+  //           const notification = JSON.parse(message.body);
+  //           console.log("Received private notification:", notification);
+  //           bellNotification((x) => x + 1);
+  //         } catch (e) {
+  //           console.error("Failed to parse notification message:", e);
+  //         }
+  //       }
+  //     );
+
+  //     // Cleanup function to unsubscribe
+  //     return () => {
+  //       privateNotificationSubscription.unsubscribe();
+  //       publicPostSubscription.unsubscribe();
+  //       acceptNotificationSubscription.unsubscribe();
+  //     };
+  //   }
+  // }, [stompClient, isConnected, email]);
+
   useEffect(() => {
-    if (isConnected == true) {
-      stompClient.subscribe(`/user/${email}/queue/notifications`, (message) => {
+    if (isConnected) {
+      // Avoid multiple subscriptions by checking or ensuring only one subscription
+      let privateNotificationSubscription = stompClient.subscribe(`/user/${email}/queue/notifications`, (message) => {
         try {
           const notification = JSON.parse(message.body);
-          // alert(notification.message);
           console.log("Received private notification:", notification);
           setPeopleNotification((x) => x + 1);
         } catch (e) {
           console.error("Failed to parse notification message:", e);
         }
       });
-
-      stompClient.subscribe("/public/posts", (message) => {
+  
+      let publicPostSubscription = stompClient.subscribe("/public/posts", (message) => {
         const newPost = JSON.parse(message.body);
         setAllPost((prevPosts) => [newPost, ...prevPosts]);
         setLandingPageNotification((x) => x + 1);
       });
-
-      stompClient.subscribe(
-        `/user/${email}/queue/acceptNotification`,
-        (message) => {
-          try {
-            const notification = JSON.parse(message.body);
-            // alert(notification.message);
-            console.log("Received private notification:", notification);
-            bellNotification((x) => x + 1);
-          } catch (e) {
-            console.error("Failed to parse notification message:", e);
-          }
+  
+      let acceptNotificationSubscription = stompClient.subscribe(`/user/${email}/queue/acceptNotification`, (message) => {
+        try {
+          const notification = JSON.parse(message.body);
+          console.log("Received private notification:", notification);
+          bellNotification((x) => x + 1);
+        } catch (e) {
+          console.error("Failed to parse notification message:", e);
         }
-      );
+      });
+  
+      // Cleanup function to unsubscribe to prevent multiple subscriptions
+      return () => {
+        if (privateNotificationSubscription) privateNotificationSubscription.unsubscribe();
+        if (publicPostSubscription) publicPostSubscription.unsubscribe();
+        if (acceptNotificationSubscription) acceptNotificationSubscription.unsubscribe();
+      };
     }
-  }, [stompClient, isConnected]);
+  }, [stompClient, isConnected, email]);
+  
 
   useEffect(() => {
     api
@@ -157,7 +246,10 @@ export default function Navbar() {
                   .getElementById("new-post-section")
                   ?.scrollIntoView({ behavior: "smooth" });
                 setLandingPageNotification(0);
+                console.log("notifi", landingPageNotification);
               } else {
+                setLandingPageNotification(0);
+                console.log("notifi", landingPageNotification);
                 navigate("/linkup");
               }
             }}
@@ -167,7 +259,7 @@ export default function Navbar() {
                 <Badge
                   value={landingPageNotification}
                   className="badge"
-                ></Badge>
+                >{console.log("this is the count in the ui",landingPageNotification)}</Badge>
               )}
             </i>
           </div>
@@ -180,9 +272,12 @@ export default function Navbar() {
                   .getElementById("request-container")
                   ?.scrollIntoView({ behavior: "smooth" });
                 setPeopleNotification(0);
+                console.log("notification after clear", peopleNotificatoin);
               } else {
-                navigate("/people");
                 setPeopleNotification(0);
+                navigate("/people");
+
+                console.log("notification after clear", peopleNotificatoin);
               }
             }}
           >
@@ -212,10 +307,7 @@ export default function Navbar() {
           <div className="navbar-sec-three-items">
             <FontAwesomeIcon icon={faBell} className="nav-sec-three-icons">
               {bellNotification > 0 && (
-                <Badge
-                  value={bellNotification}
-                  className="badge"
-                ></Badge>
+                <Badge value={bellNotification} className="badge"></Badge>
               )}
             </FontAwesomeIcon>
           </div>

@@ -300,11 +300,128 @@
 
       .accordian {
         .accordian-tab {
+          .container-three-content-items {
+            // background-color: aquamarine;
+            .accordian-friends {
+              // background-color: aqua;
+              display: flex;
+              flex-direction: column;
+              gap: 5px;
+              .accordian-person-each {
+                display: flex;
+                padding: .3rem;
+                cursor: pointer;
+
+                .accordian-person-image {
+                  height: 45px;
+                  width: 45px;
+                  // background-color: aliceblue;
+
+                  img {
+                    height: 100%;
+                    width: 100%;
+                    object-fit: fill;
+                    background-position: center;
+                    border-radius: 50%;
+                  }
+                }
+                .accordian-person-about {
+                  padding: 0 0.5rem;
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: center;
+
+                  .accordian-person-name {
+                    // background-color: blue;
+                    font-size: 14px;
+                    font-weight: 600;
+                  }
+                  .accordian-person-bio {
+                    font-size: 12px;
+                    font-weight: 500;
+                  }
+                }
+              }
+              .accordian-person-each:hover {
+                box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+                border-radius: 10px;
+              }
+
+              .view-all-friends{
+                width: 100%;
+                text-align: center;
+                color: #0866ff;
+                font-weight: 600;
+                cursor: pointer;
+              }
+
+              .p-divider.p-divider-horizontal {
+                margin: 0;
+              }
+            }
+
+            .accordian-suggessions {
+              // background-color: aqua;
+              display: flex;
+              flex-direction: column;
+              gap: 5px;
+              .accordian-suggessions-each {
+                display: flex;
+                padding: .3rem;
+                cursor: pointer;
+
+                .accordian-suggessions-image {
+                  height: 45px;
+                  width: 45px;
+                  // background-color: aliceblue;
+
+                  img {
+                    height: 100%;
+                    width: 100%;
+                    object-fit: fill;
+                    background-position: center;
+                    border-radius: 50%;
+                  }
+                }
+                .accordian-suggessions-about {
+                  padding: 0 0.5rem;
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: center;
+
+                  .accordian-suggessions-name {
+                    // background-color: blue;
+                    font-size: 14px;
+                    font-weight: 600;
+                  }
+                  .accordian-suggessions-bio {
+                    font-size: 12px;
+                    font-weight: 500;
+                  }
+                }
+              }
+              .accordian-suggessions-each:hover {
+                box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+                border-radius: 10px;
+              }
+
+              .view-all-suggessions{
+                width: 100%;
+                text-align: center;
+                color: #0866ff;
+                font-weight: 600;
+                cursor: pointer;
+              }
+              .p-divider.p-divider-horizontal {
+                margin: 0;
+              }
+            }
+          }
           .p-accordion-header-text {
             font-size: 14px;
           }
           .p-accordion-header-link {
-            padding-left: 35%;
+            // padding-left: 35%;
             padding-top: 0.5rem;
             padding-bottom: 0.5rem;
             background-color: white;
@@ -317,7 +434,7 @@
           .p-accordion-toggle-icon {
             display: none !important;
           }
-          .p-accordion-content{
+          .p-accordion-content {
             border: none;
             font-size: 14px;
           }
